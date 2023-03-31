@@ -1,0 +1,24 @@
+{
+  "name": "doit",
+  "version": "1.0.0",
+  "main": "./dist/bin/index.js",
+  "bin": {
+    "do": "./dist/bin/index.js"
+  },
+  "repository": "git@github.com:dun-cat/doit.git",
+  "author": "lumin <527724143@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./tsconfig.json --watch",
+    "do": "./dist/bin/command.js"
+  },
+  "devDependencies": {
+    "@types/execa": "^2.0.0",
+    "@types/yargs": "^17.0.24",
+    "typescript": "^5.0.3"
+  },
+  "dependencies": {
+    "execa": "^7.1.1",
+    "yargs": "^17.7.1"
+  }
+}
