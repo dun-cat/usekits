@@ -19,8 +19,9 @@ yargs
       console.log('Goodbye World!');
     }
   })
-  .command(gitPlugin)
   .help()
   .alias('h', 'help')
   .demandCommand(1)
   .argv;
+
+gitPlugin(yargs);

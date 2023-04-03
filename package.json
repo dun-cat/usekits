@@ -10,12 +10,18 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsc -p ./tsconfig.json --watch",
-    "do": "./dist/bin/command.js"
+    "start": "webpack --config webpack.config.ts --watch --mode=development",
+    "do": "chmod +x ./dist/bin/command.js && node ./dist/bin/command.js"
   },
   "devDependencies": {
-    "@types/execa": "^2.0.0",
+    "@types/node": "^18.15.11",
     "@types/yargs": "^17.0.24",
-    "typescript": "^5.0.3"
+    "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.3",
+    "webpack": "^5.77.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.2"
   },
   "dependencies": {
     "execa": "^7.1.1",
