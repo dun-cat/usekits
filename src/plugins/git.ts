@@ -35,7 +35,7 @@ function gitPlugin(yargs: Argv) {
           console.log('Changes have been pushed to Git remote.');
         }
       } catch (error) {
-        console.error('Failed to commit changes to Git:', error);
+        console.error('Failed to commit changes to Git:\n', error.stdout);
       }
     }
   })

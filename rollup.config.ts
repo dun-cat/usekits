@@ -2,27 +2,28 @@
 import cleanup from 'rollup-plugin-cleanup';
 import { terser } from 'rollup-plugin-terser';
 import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 import type { RollupOptions, OutputOptions } from 'rollup';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import shebang from 'rollup-plugin-shebang-bin'
+import shebang from 'rollup-plugin-add-shebang';
 
 
 const output: OutputOptions = {
   preserveModules: true,
   dir: "dist",
-  format: 'cjs',
-  // exports: 'default',
+  format: "commonjs",
 };
 const plugins = [
   shebang({
-    include: ["./bin/command.ts"],
+    include: 'dist/bin/command.js'
   }),
   typescript({
     tsconfig: './tsconfig.json',
   }),
-  resolve(),
-  commonjs()
+  // resolve(),
+  // commonjs(),
+  // json()
 ];
 if (process.env.NODE_ENV === 'development') {
   // During development include a source map. We don't ship this to npm,
@@ -39,16 +40,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const config: RollupOptions = {
-  input: 'bin/command.ts',
-  acorn: {
-
-  },
+  input: './bin/command.tsx',
   output,
   watch: {
-    include: 'src/**',
+    include: ['src/**', 'bin/**'],
   },
   plugins,
-  external: ['execa', 'yargs']
+  external: ['execa', 'yargs', "react", "ink"]
 };
 
 export default config;
