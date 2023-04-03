@@ -1,6 +1,6 @@
 
+const execaPromise = import('execa');
 
-import { execa } from 'execa';
 import { Argv } from 'yargs';
 function gitPlugin(yargs: Argv) {
   yargs.command({
@@ -27,11 +27,11 @@ function gitPlugin(yargs: Argv) {
     handler: async (argv) => {
       try {
         const files = argv.files?.join(' ') || '.';
-        await execa('git', ['add', files]);
-        await execa('git', ['commit', '-m', argv.message]);
+        (await execaPromise).execa('git', ['add', files]);
+        await (await execaPromise).execa('git', ['commit', '-m', argv.message]);
         console.log(`Changes (${files}) have been committed to Git with message "${argv.message}".`);
         if (argv.push) {
-          await execa('git', ['push']);
+          await (await execaPromise).execa('git', ['push']);
           console.log('Changes have been pushed to Git remote.');
         }
       } catch (error) {
