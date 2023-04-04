@@ -40,7 +40,7 @@ async function commit(answers) {
   const message = `${answers.type}:  ${answers.msg || defaultValue}`;
   try {
     await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
-    const result = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
+    const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
       cwd: cwd.get(),
     });
 
