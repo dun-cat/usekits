@@ -29,7 +29,7 @@ async function init() {
     if (!existsSync(`${cwd.get()}/.gitignore`)) {
       copyFileSync(resolve(__dirname, '../template/.gitignore'), `${cwd.get()}/.gitignore`);
     }
-    (await execaPromise).execa('git', ['init'], { cwd: cwd.get() });
+    await (await execaPromise).execa('git', ['init'], { cwd: cwd.get() });
   } catch (error) {
     throw error;
   }
@@ -60,7 +60,7 @@ async function push() {
 async function syncProjectToRemoteGitRepo(host, namespace, name) {
   try {
     commit({ type: 'feat', msg: '初始化' });
-    (await execaPromise).execa('git', [
+    await (await execaPromise).execa('git', [
       'push', '--set-upstream',
       `${host}/${namespace}/${name}.git`, 'master',
     ], { cwd: cwd.get() });
