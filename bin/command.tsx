@@ -1,32 +1,58 @@
+#!/usr/bin/env node
 
-import React from 'react';
-import yargs from 'yargs';
-import gitPlugin from '@src/plugins/git';
+import requireDir from 'require-dir';
+import { prompt, registerPrompt } from 'inquirer';
+import { init } from '../src/lib/config';
 
-import { render } from 'ink';
-import App from '@src/views/App';
+init();
 
-// yargs
-//   .usage('Usage: $0 <command> [options]')
-//   .command({
-//     command: 'hello',
-//     describe: 'Say hello',
-//     handler: () => {
-//       console.log('Hello World!');
-//     }
-//   })
-//   .command({
-//     command: 'bye',
-//     describe: 'Say goodbye',
-//     handler: () => {
-//       console.log('Goodbye World!');
-//     }
-//   })
-//   .help()
-//   .alias('h', 'help')
-//   .demandCommand(1)
-//   .argv;
+const uiConfig = requireDir('../src/ui-configs');
+import commander from '../src/lib/command';
+import runner from '../src/lib/runner';
 
-gitPlugin(yargs);
 
-render(<App />);
+registerPrompt('fuzzypath', require('inquirer-fuzzy-path'));
+registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
+
+
+async function toolSubMenu() {
+  const step2 = await prompt(uiConfig.tool);
+  switch (step2.answer) {
+    case 'git-init':
+      runner.gitInit();
+      break;
+    case 'gitlab-init':
+      runner.createGitlabProject();
+      break;
+    default:
+      break;
+  }
+}
+async function createUI() {
+  const step1 = await prompt(uiConfig.menu);
+  switch (step1.answer) {
+    case 'commit':
+      runner.commit();
+      break;
+    case 'standard':
+      runner.standard();
+      break;
+    case 'create_project':
+      runner.createProject();
+      break;
+    case 'tool':
+      toolSubMenu();
+      break;
+    case 'help':
+      runner.help();
+      break;
+    default:
+      break;
+  }
+}
+
+commander.init();
+// 如果无参数，直接展示入口 UI。
+if (commander.argsLength() === 0) {
+  createUI();
+}

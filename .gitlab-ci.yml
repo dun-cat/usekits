@@ -1,0 +1,20 @@
+
+image: node:latest
+
+cache:
+  paths:
+  - node_modules/
+  
+stages:
+  - install
+  - lint
+
+install:
+  stage: install
+  script:
+    - yarn install
+
+lint:
+  stage: lint
+  script:
+    - yarn lint
