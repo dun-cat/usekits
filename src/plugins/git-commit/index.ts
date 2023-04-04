@@ -17,7 +17,7 @@ export interface Options extends DoCLI.GlobalOptions {
   message?: string;
 }
 
-async function commit(options: Options) {
+async function commit() {
   console.log(this.opts())
   const { push = false, yes, message } = this.opts();
   const { hasProjectGit } = git;
@@ -36,7 +36,7 @@ async function commit(options: Options) {
       await git.commit(message);
     }
     // 接受到 push 参数，需要推送
-    if (!push) {
+    if (push) {
       if (!yes) {
         const step3 = await prompt(ui.push);
         if (!step3.next) return;
