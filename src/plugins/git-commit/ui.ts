@@ -4,47 +4,47 @@ export const choices = [
   {
     name: '* feat     : 新特性',
     value: 'feat',
-    defaultValue: '新增特性',
+    defaultValue: 'feat: ',
   },
   {
-    name: '* fixed    : bug修复',
+    name: '* fixed    : Bug 修复',
     value: 'fixed',
-    defaultValue: 'bug修复',
+    defaultValue: 'fixed: ',
   },
   {
     name: '* style    : 样式修复',
     value: 'style',
-    defaultValue: '样式修复',
+    defaultValue: 'style: ',
   },
   {
     name: '* perf     : 性能优化',
     value: 'perf',
-    defaultValue: '性能优化',
+    defaultValue: 'perf: ',
   },
   {
     name: '* release  : 版本发布',
     value: 'release',
-    defaultValue: '版本发布',
+    defaultValue: 'release: ',
   },
   {
     name: '* refactor : 代码重构',
     value: 'refactor',
-    defaultValue: '代码重构',
+    defaultValue: 'refactor: ',
   },
   {
     name: '* test     : 测试用例更新',
     value: 'test',
-    defaultValue: '测试用例更新',
+    defaultValue: 'test: ',
   },
   {
     name: '* revert   : 代码回滚',
     value: 'revert',
-    defaultValue: '代码回滚',
+    defaultValue: 'revert: ',
   },
   {
     name: '* temp     : 临时提交',
     value: 'temp',
-    defaultValue: '临时提交',
+    defaultValue: 'temp: ',
   },
 ];
 

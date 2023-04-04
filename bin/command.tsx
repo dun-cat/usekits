@@ -2,14 +2,15 @@
 
 import requireDir from 'require-dir';
 import { prompt, registerPrompt } from 'inquirer';
-
-const uiConfig = requireDir('../src/ui-configs');
-import runner from '../src/lib/runner';
 import core from '@src/core';
 import menu from '@src/ui-configs/menu';
+const uiConfig = requireDir('../src/ui-configs');
+import runner from '../src/lib/runner';
+
 
 registerPrompt('fuzzypath', require('inquirer-fuzzy-path'));
 registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
+registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
 
 async function toolSubMenu() {
   const step2 = await prompt(uiConfig.tool);
