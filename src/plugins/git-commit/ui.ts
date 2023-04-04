@@ -55,7 +55,7 @@ export default {
       type: 'autocomplete',
       name: 'type',
       message: `请选择 ${chalk.yellow('commit')} 类型？`,
-      source(answersSoFar, input) {
+      source(answersSoFar: object, input: string) {
         return new Promise(((resolve) => {
           const result = choices.filter(_ => _.name.indexOf(input || '') !== -1);
           resolve(result);
