@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 const extraTsFiles = getTsFiles(path.join(__dirname, "./src/plugins"));
 const config: RollupOptions = {
-  input: ['./bin/command.tsx', ...extraTsFiles],
+  input: ['./bin/command.ts', ...extraTsFiles],
   output,
   watch: {
     include: ['src/**', 'bin/**'],

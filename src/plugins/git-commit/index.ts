@@ -1,4 +1,4 @@
-import git from '@src/actions/git';
+import git from './action';
 import { DoCLI } from '@src/type';
 import log from '@src/utils/log';
 import { prompt } from 'inquirer';

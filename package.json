@@ -1,6 +1,6 @@
 {
-  "name": "doit",
-  "version": "1.0.0",
+  "name": "@dowhat/cli",
+  "version": "1.0.4",
   "main": "./dist/bin/command.js",
   "bin": {
     "do": "./dist/bin/command.js"
@@ -10,6 +10,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development rollup --bundleConfigAsCjs --config rollup.config.ts --configPlugin typescript -w",
+    "build": "rollup --bundleConfigAsCjs --config rollup.config.ts --configPlugin typescript",
     "i": "npm install . -g",
     "lint": "eslint --fix src/**/*.js bin/*",
     "do": "chmod +x ./dist/bin/command.js && ./dist/bin/command.js",

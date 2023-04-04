@@ -1,0 +1,4 @@
+scripts
+rollup.config.ts
+.rollup.cache
+.vscode

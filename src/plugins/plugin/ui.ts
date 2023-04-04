@@ -2,14 +2,14 @@ import chalk from 'chalk';
 import fuzzy from 'fuzzy';
 const choices = [
   {
-    name: '安装插件',
-    value: 'install'
+    name: '使用插件',
+    value: 'use'
   },
   {
-    name: '卸载插件',
-    value: 'uninstall'
+    name: '移除插件',
+    value: 'remove'
   }, {
-    name: '列出插件',
+    name: '列出已安装插件',
     value: 'list',
   }
 ];
@@ -22,12 +22,19 @@ export default {
     name: 'do',
     message: '亲，你想做点什么呢?',
     choices,
+  }, {
+    type: 'input',
+    name: 'pluginName',
+    message: '请输入插件 NPM 包名：',
+    when(answersSoFar: any) {
+      return answersSoFar.do === 'use'
+    }
   },
   {
     type: 'checkbox-plus',
     name: 'plugins',
     message: (answersSoFar: any) => {
-      return `请选择需要${answersSoFar.do === 'uninstall' ? '卸载' : '安装'}的插件：`
+      return `请选择需要移除的插件：`
     },
     highlight: true,
     searchable: true,
@@ -42,7 +49,7 @@ export default {
       }));
     },
     when(answersSoFar: any) {
-      return ['uninstall', 'install'].includes(answersSoFar.do)
+      return answersSoFar.do === 'remove'
     }
   }]
 };
