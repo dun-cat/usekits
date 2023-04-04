@@ -2,18 +2,14 @@
 
 import requireDir from 'require-dir';
 import { prompt, registerPrompt } from 'inquirer';
-import { init } from '../src/lib/config';
-
-init();
 
 const uiConfig = requireDir('../src/ui-configs');
-import commander from '../src/lib/command';
 import runner from '../src/lib/runner';
-
+import core from '@src/core';
+import menu from '@src/ui-configs/menu';
 
 registerPrompt('fuzzypath', require('inquirer-fuzzy-path'));
 registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
-
 
 async function toolSubMenu() {
   const step2 = await prompt(uiConfig.tool);
@@ -29,10 +25,10 @@ async function toolSubMenu() {
   }
 }
 async function createUI() {
-  const step1 = await prompt(uiConfig.menu);
+  const step1 = await prompt(menu);
   switch (step1.answer) {
     case 'commit':
-      runner.commit();
+      // runner.commit();
       break;
     case 'standard':
       runner.standard();
@@ -51,8 +47,12 @@ async function createUI() {
   }
 }
 
-commander.init();
+// 启动
+core.bootstrap();
 // 如果无参数，直接展示入口 UI。
-if (commander.argsLength() === 0) {
+if (core.argsLength() === 0) {
   createUI();
+} else {
+
 }
+

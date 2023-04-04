@@ -27,5 +27,12 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "allowJs": true
-  }
+  },
+  "include": [
+    "./bin/**/*.ts",
+    "./src/**/*.ts",
+    "./rollup.config.ts",
+    "./scripts/**/*.ts"
+  ],
+  "exclude": []
 }

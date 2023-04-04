@@ -1,11 +1,11 @@
-import execa from 'execa';
+import { execa } from 'execa';
 import { TAOBAO_REGISTRY } from './npm';
 
-export function install(options = {}) {
+export function install(options?) {
   let { registry } = options;
   if (!registry) registry = TAOBAO_REGISTRY;
   try {
-    execa.sync('npm', ['install', '--registry', registry]);
+    execa('npm', ['install', '--registry', registry]);
   } catch (error) {
     throw error;
   }

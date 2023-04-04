@@ -7,6 +7,8 @@ import type { RollupOptions, OutputOptions } from 'rollup';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import shebang from 'rollup-plugin-add-shebang';
+import { getTsFiles } from './scripts/getTsFile';
+import path from 'path';
 
 
 const output: OutputOptions = {
@@ -38,15 +40,15 @@ if (process.env.NODE_ENV === 'development') {
   // size increased introduced by shipping both ESM and CJS:
   plugins.push(terser());
 }
-
+const extraTsFiles = getTsFiles(path.join(__dirname, "./src/plugins"));
 const config: RollupOptions = {
-  input: './bin/command.tsx',
+  input: ['./bin/command.tsx', ...extraTsFiles],
   output,
   watch: {
     include: ['src/**', 'bin/**'],
   },
   plugins,
-  external: ['execa', 'yargs', "react", "ink"]
+  external: ['execa', "inquirer", "chalk", "axios", "ora", "commander", "fs-extra"]
 };
 
 export default config;

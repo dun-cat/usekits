@@ -6,7 +6,7 @@ import log from '../utils/log';
 import { setAccessToken } from '../service/gitlab';
 
 const configPath = `${os.homedir()}/.door/config.json`;
-let config = {};
+let config: any = {};
 
 function init() {
   try {

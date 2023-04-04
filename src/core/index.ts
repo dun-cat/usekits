@@ -1,0 +1,32 @@
+import { init } from '@src/lib/config';
+import runner from '@src/lib/runner';
+import { program } from 'commander';
+import pluginManager from './plugin-manager';
+
+const bootstrap = () => {
+  // init()
+
+  // 全局命令
+  program.version('0.0.1', '-v, --version', '当前版本号');
+  // 初始接受参数
+  program.option('-d, --debug', '输出额外的调试信息');
+  program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
+
+  // 插件命令
+  pluginManager.init();
+
+  // create project
+  program
+    .command('init')
+    .option('-git', '是否初始化git')
+    .action((options) => {
+      runner.createProject(options);
+    });
+  program.parse();
+}
+
+function argsLength() {
+  return program.args.length;
+}
+
+export default { bootstrap, argsLength }

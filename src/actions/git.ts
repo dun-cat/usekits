@@ -1,4 +1,4 @@
-import execa from 'execa';
+const execaPromise = import('execa')
 import { copyFileSync, existsSync } from 'fs-extra';
 import { resolve } from 'path';
 import log from '../utils/log';
@@ -7,12 +7,12 @@ import { choices } from '../ui-configs/git';
 
 let isProjectGit: boolean;
 
-function hasProjectGit() {
+async function hasProjectGit() {
   if (isProjectGit != null) {
     return isProjectGit;
   }
   try {
-    execa.sync('git', ['status'], { cwd: cwd.get() });
+    (await execaPromise).execa('git', ['status'], { cwd: cwd.get() });
     isProjectGit = true;
     return isProjectGit;
   } catch (error) {
@@ -24,23 +24,23 @@ function hasProjectGit() {
 /**
  * 初始化 git 项目
  */
-function init() {
+async function init() {
   try {
     if (!existsSync(`${cwd.get()}/.gitignore`)) {
       copyFileSync(resolve(__dirname, '../template/.gitignore'), `${cwd.get()}/.gitignore`);
     }
-    execa.sync('git', ['init'], { cwd: cwd.get() });
+    (await execaPromise).execa('git', ['init'], { cwd: cwd.get() });
   } catch (error) {
     throw error;
   }
 }
 
-function commit(answers) {
+async function commit(answers) {
   const { defaultValue } = choices.filter(item => answers.type === item.value)[0];
   const message = `${answers.type}:  ${answers.msg || defaultValue}`;
   try {
-    execa.sync('git', ['add', '*'], { cwd: cwd.get() });
-    const result = execa.sync('git', ['commit', '-m', message.replace(/"/, '\\"')], {
+    (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
+    const result = (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
       cwd: cwd.get(),
     });
     log.info(result.stdout);
@@ -49,9 +49,9 @@ function commit(answers) {
   }
 }
 
-function push() {
+async function push() {
   try {
-    execa.sync('git', ['push'], { cwd: cwd.get() });
+    (await execaPromise).execa('git', ['push'], { cwd: cwd.get() });
   } catch (error) {
     throw error;
   }
@@ -60,7 +60,7 @@ function push() {
 async function syncProjectToRemoteGitRepo(host, namespace, name) {
   try {
     commit({ type: 'feat', msg: '初始化' });
-    execa.sync('git', [
+    (await execaPromise).execa('git', [
       'push', '--set-upstream',
       `${host}/${namespace}/${name}.git`, 'master',
     ], { cwd: cwd.get() });

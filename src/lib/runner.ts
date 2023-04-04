@@ -15,38 +15,7 @@ import log from '../utils/log';
 
 const service = requireDir('../service');
 
-/**
- * 提交 git 代码
- * @param {object} options 命令行参数
- */
-async function commit(options = {}) {
-  const { hasProjectGit } = actions.git;
-  const { push } = options;
-  let spinner = null;
-  if (!hasProjectGit(cwd.get())) {
-    log.error('当前项目不是Git项目');
-    return;
-  }
 
-  try {
-    // commit
-    const step2 = await prompt(uiConfig.git.commit);
-    actions.git.commit(step2);
-    // 接受到-p参数，忽略提示，直接push
-    if (!push) {
-      const step3 = await prompt(uiConfig.git.push);
-      if (!step3.next) return;
-    }
-    spinner = ora('推送中...').start();
-    actions.git.push();
-    spinner.succeed('推送成功');
-  } catch (error) {
-    if (spinner) {
-      spinner.fail('推送失败');
-    }
-    log.error(error);
-  }
-}
 
 /**
  * 规范增强
@@ -67,7 +36,7 @@ function standard() {
  * 创建项目
  * @param {object} options 命令行参数
  */
-async function createProject(options) {
+async function createProject(options?) {
   const step2 = await prompt(uiConfig.project.config);
   if (!cwd.isEmpty(cwd.get())) {
     const notEmptyDirCreate = await prompt({
@@ -109,7 +78,7 @@ async function setGitlabHost() {
  * 创建 gitlab 项目
  * @param {object} options 输入参数
  */
-async function createGitlabProject(options) {
+async function createGitlabProject(options?: any) {
   const { syncProjectToRemoteGitRepo, hasProjectGit, init } = actions.git;
 
   // 设置 access token
@@ -198,7 +167,6 @@ function help() {
 
 export default {
   gitInit,
-  commit,
   standard,
   createProject,
   createGitlabProject,
