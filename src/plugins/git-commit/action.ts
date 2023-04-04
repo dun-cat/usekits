@@ -1,10 +1,9 @@
 const execaPromise = import('execa')
+import cwd from '@src/utils/cwd';
+import log from '@src/utils/log';
 import { copyFileSync, existsSync } from 'fs-extra';
 import { resolve } from 'path';
-import log from '../utils/log';
-import cwd from '../utils/cwd';
-import { choices } from '../ui-configs/git';
-
+import { choices } from './ui';
 let isProjectGit: boolean;
 
 async function hasProjectGit() {
@@ -36,7 +35,7 @@ async function init() {
 }
 
 async function commit(answers) {
-  const { defaultValue } = choices.filter(item => answers.type === item.value)[0];
+  const { defaultValue } = choices.find(item => answers.type === item.value);
   const message = `${answers.type}: ${answers.msg || defaultValue}`;
   try {
     await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });

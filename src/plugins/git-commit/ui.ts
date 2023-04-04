@@ -49,7 +49,6 @@ export const choices = [
 ];
 
 export default {
-  choices,
   commit: [
     {
       type: 'autocomplete',

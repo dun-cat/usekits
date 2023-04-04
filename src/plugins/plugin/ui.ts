@@ -26,12 +26,12 @@ export default {
   {
     type: 'checkbox-plus',
     name: 'plugins',
-    message: (answersSoFar: object) => {
+    message: (answersSoFar: any) => {
       return `请选择需要${answersSoFar.do === 'uninstall' ? '卸载' : '安装'}的插件：`
     },
     highlight: true,
     searchable: true,
-    source(answersSoFar: object, input: string) {
+    source(answersSoFar: any, input: string) {
       input = input || '';
       return new Promise(((resolve) => {
         const fuzzyResult = fuzzy.filter(input, plugins);
@@ -41,7 +41,7 @@ export default {
         resolve(data);
       }));
     },
-    when(answersSoFar: object) {
+    when(answersSoFar: any) {
       return ['uninstall', 'install'].includes(answersSoFar.do)
     }
   }]
