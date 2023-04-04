@@ -12,7 +12,7 @@ async function hasProjectGit() {
     return isProjectGit;
   }
   try {
-    (await execaPromise).execa('git', ['status'], { cwd: cwd.get() });
+    await (await execaPromise).execa('git', ['status'], { cwd: cwd.get() });
     isProjectGit = true;
     return isProjectGit;
   } catch (error) {
