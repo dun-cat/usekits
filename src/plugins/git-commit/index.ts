@@ -41,7 +41,7 @@ async function commit(options: Options) {
         if (!step3.next) return;
       }
       spinner = ora('推送中...').start();
-      git.push();
+      await git.push();
       spinner.succeed('推送成功');
     }
 

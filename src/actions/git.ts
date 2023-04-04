@@ -43,7 +43,6 @@ async function commit(answers) {
     const result = (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
       cwd: cwd.get(),
     });
-    log.info(result.stdout);
   } catch (error) {
     throw error;
   }
