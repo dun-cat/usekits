@@ -18,7 +18,8 @@ export interface Options extends DoCLI.GlobalOptions {
 }
 
 async function commit(options: Options) {
-  const { push = false, yes, message } = options;
+  console.log(this.opts())
+  const { push = false, yes, message } = this.opts();
   const { hasProjectGit } = git;
   let spinner = null;
   if (!hasProjectGit()) {
