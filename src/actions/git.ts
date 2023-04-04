@@ -39,11 +39,11 @@ async function commit(answers) {
   const { defaultValue } = choices.filter(item => answers.type === item.value)[0];
   const message = `${answers.type}:  ${answers.msg || defaultValue}`;
   try {
-    (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
-    const result = (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
+    await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
+    const result = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
       cwd: cwd.get(),
     });
-    console.log(result)
+
   } catch (error) {
     throw error;
   }
@@ -51,7 +51,7 @@ async function commit(answers) {
 
 async function push() {
   try {
-    (await execaPromise).execa('git', ['push'], { cwd: cwd.get() });
+    await (await execaPromise).execa('git', ['push'], { cwd: cwd.get() });
   } catch (error) {
     throw error;
   }
