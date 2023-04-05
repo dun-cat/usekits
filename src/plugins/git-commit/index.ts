@@ -19,6 +19,7 @@ export interface Options extends DoCLI.GlobalOptions {
 
 async function commit() {
   const [message] = this.args
+  console.log('this.opts()', this.opts())
   const { push = true, yes } = this.opts() as Options;
   const { hasProjectGit } = git;
   let spinner = null;
@@ -59,7 +60,7 @@ const gitPlugin: DoCLI.Plugin = (program: Command) => {
     .command('commit [message]')
     .description('Git 提交代码')
     .alias('c')
-    .option('-p, --push', '提交代码后，是否推送到仓库，默认给予推送提示弹框。')
+    .option('-np, --no-push', '提交代码后，是否推送到仓库，默认给予推送提示弹框。')
     .action(commit);
 }
 
