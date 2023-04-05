@@ -1,6 +1,6 @@
 {
   "name": "@use-kits/cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "./dist/bin/command.js",
   "bin": {
     "use": "./dist/bin/command.js"
