@@ -31,7 +31,7 @@ async function commit() {
     } else {
       await git.commit({ msg: message });
     }
-    // 接收到 np 选项，忽略推送
+    // 接收到 --disable-push 选项，忽略推送
     if (disablePush) return
 
     // 未接收到 yes 选项，弹框提示是否推送
