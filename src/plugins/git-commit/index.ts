@@ -11,10 +11,6 @@ export interface Options extends DoCLI.GlobalOptions {
    * 禁止推送到远程仓库
    */
   disablePush?: boolean;
-  /**
-   * 提交消息
-   */
-  message?: string;
 }
 
 async function commit() {
