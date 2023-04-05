@@ -8,9 +8,9 @@ import ui from './ui';
 
 export interface Options extends DoCLI.GlobalOptions {
   /**
-   * 是否推送到远程仓库
+   * 禁止推送到远程仓库
    */
-  push?: boolean;
+  disablePush?: boolean;
   /**
    * 提交消息
    */
@@ -19,8 +19,7 @@ export interface Options extends DoCLI.GlobalOptions {
 
 async function commit() {
   const [message] = this.args
-  console.log('this.opts()去', this.opts(), this.args)
-  const { np = false, yes } = this.opts();
+  const { disablePush = false, yes } = this.opts();
   const { hasProjectGit } = git;
   let spinner = null;
   if (!hasProjectGit()) {
@@ -37,7 +36,7 @@ async function commit() {
       await git.commit({ msg: message });
     }
     // 接收到 np 选项，忽略推送
-    if (np) return
+    if (disablePush) return
 
     // 未接收到 yes 选项，弹框提示是否推送
     if (!yes) {
@@ -61,7 +60,7 @@ const gitPlugin: DoCLI.Plugin = (program: Command) => {
     .command('commit [message]')
     .description('Git 提交代码')
     .alias('c')
-    .option('-dp, --disable-push', '提交代码后，是否推送到仓库，默认给予推送提示弹框。')
+    .option('--disable-push', '提交代码后，是否推送到仓库，默认给予推送提示弹框。')
     .action(commit);
 }
 
