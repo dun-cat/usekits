@@ -1,11 +1,11 @@
 {
-  "name": "@dowhat/cli",
-  "version": "1.0.4",
+  "name": "@use-kits/cli",
+  "version": "1.0.3",
   "main": "./dist/bin/command.js",
   "bin": {
-    "do": "./dist/bin/command.js"
+    "use": "./dist/bin/command.js"
   },
-  "repository": "git@github.com:dun-cat/doit.git",
+  "repository": "git@github.com:dun-cat/use-kits.git",
   "author": "lumin <527724143@qq.com>",
   "license": "MIT",
   "scripts": {
