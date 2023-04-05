@@ -32,7 +32,6 @@
     "./bin/**/*.ts",
     "./src/**/*.ts",
     "./rollup.config.ts",
-    "./scripts/**/*.ts"
-  ],
-  "exclude": []
+    "./scripts/*"
+  ]
 }

@@ -18,8 +18,8 @@ export interface Options extends DoCLI.GlobalOptions {
 }
 
 async function commit() {
-
-  const { push = true, yes, message } = this.opts() as Options;
+  const [message] = this.args
+  const { push = true, yes } = this.opts() as Options;
   const { hasProjectGit } = git;
   let spinner = null;
   if (!hasProjectGit()) {
@@ -56,11 +56,10 @@ async function commit() {
 
 const gitPlugin: DoCLI.Plugin = (program: Command) => {
   program
-    .command('commit')
+    .command('commit [message]')
     .description('Git 提交代码')
     .alias('c')
     .option('-p, --push', '提交代码后，直接推送到远程仓库')
-    .option('-m, --message', '提交消息')
     .action(commit);
 }
 

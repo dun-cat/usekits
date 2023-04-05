@@ -1,5 +1,6 @@
 import { init } from '@src/lib/config';
 import runner from '@src/lib/runner';
+import { PACKAGE_VERSION } from '@src/utils/constant';
 import { program } from 'commander';
 import pluginManager from './plugin-manager';
 
@@ -7,7 +8,7 @@ const bootstrap = () => {
   // init()
 
   // 全局命令
-  program.version('0.0.1', '-v, --version', '当前版本号');
+  program.version(PACKAGE_VERSION, '-v, --version', '当前版本号');
   // 初始接受参数
   program.option('-d, --debug', '输出额外的调试信息');
   program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');

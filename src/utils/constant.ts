@@ -3,7 +3,9 @@ const CONFIG_KEYS = {
   GITLAB_HOST: 'gitlab_host',
 };
 
+// @ts-ignore
+const PACKAGE_VERSION = DEFINE_PACKAGE_VERSION
 
 export {
-  CONFIG_KEYS,
+  CONFIG_KEYS, PACKAGE_VERSION
 };

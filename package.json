@@ -1,6 +1,6 @@
 {
   "name": "@use-kits/cli",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "main": "./dist/bin/command.js",
   "bin": {
     "use": "./dist/bin/command.js"
@@ -14,7 +14,7 @@
     "i": "npm install . -g",
     "lint": "eslint --fix src/**/*.js bin/*",
     "do": "chmod +x ./dist/bin/command.js && ./dist/bin/command.js",
-    "pub": "npm run updateVersion && npm publish --access=public",
+    "pub": "npm publish --access=public",
     "updateVersion": "npm --no-git-tag-version version patch"
   },
   "devDependencies": {
@@ -60,6 +60,7 @@
     "ora": "^3.4.0",
     "require-dir": "^1.2.0",
     "rimraf": "^2.6.3",
+    "rollup-plugin-define": "^1.0.1",
     "shelljs": "^0.8.3"
   }
 }

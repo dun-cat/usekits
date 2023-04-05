@@ -1,21 +1,19 @@
-// rollup.config.ts
+import type { RollupOptions, OutputOptions } from 'rollup';
 import cleanup from 'rollup-plugin-cleanup';
 import { terser } from 'rollup-plugin-terser';
 import typescript from '@rollup/plugin-typescript';
-import json from '@rollup/plugin-json';
-import type { RollupOptions, OutputOptions } from 'rollup';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
+import define from 'rollup-plugin-define';
 import shebang from 'rollup-plugin-add-shebang';
 import { getTsFiles } from './scripts/getTsFile';
 import path from 'path';
-
+import pkgInfo from './package.json';
 
 const output: OutputOptions = {
   preserveModules: true,
   dir: "dist",
   format: "commonjs",
 };
+
 const plugins = [
   shebang({
     include: 'dist/bin/command.js'
@@ -23,9 +21,11 @@ const plugins = [
   typescript({
     tsconfig: './tsconfig.json',
   }),
-  // resolve(),
-  // commonjs(),
-  // json()
+  define({
+    replacements: {
+      DEFINE_PACKAGE_VERSION: `"${pkgInfo.version}"`
+    }
+  })
 ];
 if (process.env.NODE_ENV === 'development') {
   // During development include a source map. We don't ship this to npm,
