@@ -61,7 +61,7 @@ const gitPlugin: DoCLI.Plugin = (program: Command) => {
     .command('commit [message]')
     .description('Git 提交代码')
     .alias('c')
-    .option('--disable-push', '提交代码后，是否推送到仓库，默认给予推送提示弹框。')
+    .option('-dp, --disable-push', '提交代码后，是否推送到仓库，默认给予推送提示弹框。')
     .action(commit);
 }
 
