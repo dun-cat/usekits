@@ -35,8 +35,10 @@ async function init() {
 }
 
 async function commit(answers) {
-  const { defaultValue } = choices.find(item => answers.type === item.value);
-  const message = `${answers.type}: ${answers.msg || defaultValue}`;
+  let message = answers.msg;
+  if (answers.type) {
+    message = `${answers.type}: ${answers.msg || "code updated"}`;
+  }
   try {
     await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
     const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {

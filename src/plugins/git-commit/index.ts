@@ -33,7 +33,7 @@ async function commit() {
       const step2 = await prompt(ui.commit);
       await git.commit(step2);
     } else {
-      await git.commit(message);
+      await git.commit({ msg: message });
     }
     // 接受到 push 参数，需要推送
     if (push) {
