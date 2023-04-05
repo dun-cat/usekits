@@ -20,7 +20,7 @@ export interface Options extends DoCLI.GlobalOptions {
 async function commit() {
   const [message] = this.args
   console.log('this.opts()去', this.opts())
-  const { push = true, yes } = this.opts() as Options;
+  const { np = false, yes } = this.opts();
   const { hasProjectGit } = git;
   let spinner = null;
   if (!hasProjectGit()) {
@@ -36,16 +36,15 @@ async function commit() {
     } else {
       await git.commit({ msg: message });
     }
+    if (np) return
     // 接受到 push 参数，需要推送
-    if (push) {
-      if (!yes) {
-        const step3 = await prompt(ui.push);
-        if (!step3.next) return;
-      }
-      spinner = ora('推送中...').start();
-      await git.push();
-      spinner.succeed('推送成功');
+    if (!yes) {
+      const step3 = await prompt(ui.push);
+      if (!step3.next) return;
     }
+    spinner = ora('推送中...').start();
+    await git.push();
+    spinner.succeed('推送成功');
 
   } catch (error) {
     if (spinner) {
