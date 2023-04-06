@@ -1,6 +1,6 @@
 {
   "name": "@usekits/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "适合个人开发者的命令行工具，提供插件机制来定制属于个人 CLI 命令",
   "main": "./dist/bin/command.js",
   "bin": {
@@ -16,7 +16,7 @@
     "lint": "eslint --fix src/**/*.js bin/*",
     "do": "chmod +x ./dist/bin/command.js && ./dist/bin/command.js",
     "pub": "npm publish --access=public",
-    "updateVersion": "npm --no-git-tag-version version patch"
+    "av": "npm --no-git-tag-version version patch"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.5.2",
