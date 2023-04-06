@@ -4,17 +4,6 @@ import { Command } from "commander";
 import ui from "./ui";
 import action from './action';
 
-export interface Options extends DoCLI.GlobalOptions {
-  /**
-   * 是否推送到远程仓库
-   */
-  push?: boolean;
-  /**
-   * 提交消息
-   */
-  message?: string;
-}
-
 async function programHandler() {
   try {
     const step = await prompt(ui.menus);
