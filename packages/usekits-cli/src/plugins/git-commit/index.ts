@@ -1,12 +1,12 @@
 import git from './action';
-import { DoCLI } from '@src/type';
 import log from '@src/utils/log';
 import { prompt } from 'inquirer';
 import { Command } from 'commander';
 import ora from 'ora';
 import ui from './ui';
+import { UseKitsCLI } from 'global';
 
-export interface Options extends DoCLI.GlobalOptions {
+export interface Options extends UseKitsCLI.GlobalOptions {
   /**
    * 禁止推送到远程仓库
    */
@@ -51,7 +51,7 @@ async function commit() {
   }
 }
 
-const gitPlugin: DoCLI.Plugin = (program: Command) => {
+const gitPlugin: UseKitsCLI.Plugin = (program: Command) => {
   program
     .command('commit [message]')
     .description('Git 提交代码')

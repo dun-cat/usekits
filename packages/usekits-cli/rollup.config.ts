@@ -3,6 +3,7 @@ import cleanup from 'rollup-plugin-cleanup';
 import { terser } from 'rollup-plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import define from 'rollup-plugin-define';
+import copy from 'rollup-plugin-copy';
 import shebang from 'rollup-plugin-add-shebang';
 import { getTsFiles } from './scripts/getTsFile';
 import path from 'path';
@@ -15,6 +16,11 @@ const output: OutputOptions = {
 };
 
 const plugins = [
+  copy({
+    targets: [
+      { src: 'global.d.ts', dest: 'dist' }
+    ]
+  }),
   shebang({
     include: 'dist/bin/command.js'
   }),

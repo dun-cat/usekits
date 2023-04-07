@@ -32,6 +32,7 @@
     "./bin/**/*.ts",
     "./src/**/*.ts",
     "./rollup.config.ts",
-    "./scripts/*"
+    "./scripts/*",
+    "global.d.ts"
   ]
 }

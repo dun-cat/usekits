@@ -2,11 +2,7 @@
 
 import { Command } from 'commander';
 
-export const defaultGlobalOptions: DoCLI.GlobalOptions = {
-  yes: false
-}
-
-export declare namespace DoCLI {
+export declare namespace UseKitsCLI {
   type Plugin = (program: Command) => void;
 
   type GlobalOptions = {

@@ -1,8 +1,8 @@
-import { DoCLI } from "@src/type";
 import { prompt } from 'inquirer';
 import { Command } from "commander";
 import ui from "./ui";
 import action from './action';
+import { UseKitsCLI } from 'global';
 
 async function programHandler() {
   try {
@@ -30,7 +30,7 @@ async function subProgramHandler() {
   console.log(this.args, this.opts())
 }
 
-const pluginPlugin: DoCLI.Plugin = (program: Command) => {
+const pluginPlugin: UseKitsCLI.Plugin = (program: Command) => {
   const subProgram = program
     .command('plugin')
     .description('插件管理')

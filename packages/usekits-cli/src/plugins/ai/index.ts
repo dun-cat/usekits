@@ -1,5 +1,5 @@
-import { DoCLI } from "@src/type";
 import { Command } from "commander";
+import { UseKitsCLI } from "global";
 import readline from 'readline';
 
 function handle() {
@@ -20,7 +20,7 @@ function handle() {
   });
 }
 
-const aiPlugin: DoCLI.Plugin = (program: Command) => {
+const aiPlugin: UseKitsCLI.Plugin = (program: Command) => {
 
   const subProgram = program
     .command('ai')
