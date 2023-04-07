@@ -7,7 +7,6 @@ import menu from '@src/ui-configs/menu';
 const uiConfig = requireDir('../src/ui-configs');
 import runner from '../src/lib/runner';
 
-
 registerPrompt('fuzzypath', require('inquirer-fuzzy-path'));
 registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
 registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
