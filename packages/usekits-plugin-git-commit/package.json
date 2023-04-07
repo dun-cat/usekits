@@ -1,0 +1,31 @@
+{
+  "name": "@usekits/plugin-git-commit",
+  "version": "1.0.0",
+  "description": "usekits 插件，用于规范化 git commit 提交消息",
+  "main": "./dist/index.js",
+  "repository": "git@github.com:dun-cat/usekits.git",
+  "author": "lumin <527724143@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development rollup --bundleConfigAsCjs --config rollup.config.ts --configPlugin typescript -w",
+    "build": "rollup --bundleConfigAsCjs --config rollup.config.ts --configPlugin typescript",
+    "i": "npm install . -g",
+    "lint": "eslint --fix src/**/*.js bin/*",
+    "do": "chmod +x ./dist/bin/command.js && ./dist/bin/command.js",
+    "pub": "npm publish --access=public",
+    "av": "npm --no-git-tag-version version patch"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.3"
+  },
+  "dependencies": {
+    "@usekits/cli": "workspace:^",
+    "commander": "^10.0.0",
+    "inquirer": "6.1.0",
+    "fs-extra": "^11.1.1",
+    "ora": "^3.4.0",
+    "execa": "^7.1.1",
+    "axios": "^0.19.0",
+    "chalk": "^2.4.2"
+  }
+}
