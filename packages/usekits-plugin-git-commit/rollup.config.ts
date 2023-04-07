@@ -5,7 +5,6 @@ import typescript from '@rollup/plugin-typescript';
 import define from 'rollup-plugin-define';
 import copy from 'rollup-plugin-copy';
 import shebang from 'rollup-plugin-add-shebang';
-import { getTsFiles } from './scripts/getTsFile';
 import path from 'path';
 import pkgInfo from './package.json';
 
@@ -16,22 +15,15 @@ const output: OutputOptions = {
 };
 
 const plugins = [
-  copy({
-    targets: [
-      { src: 'global.d.ts', dest: 'dist' }
-    ]
-  }),
-  shebang({
-    include: 'dist/bin/command.js'
-  }),
-  define({
-    replacements: {
-      DEFINE_PACKAGE_VERSION: `"${pkgInfo.version}"`
-    }
-  }),
+  // copy({
+  //   targets: [
+  //     { src: 'global.d.ts', dest: 'dist' }
+  //   ]
+  // }),
+
   typescript({
     tsconfig: './tsconfig.json',
-  })
+  }),
 ];
 if (process.env.NODE_ENV === 'development') {
   // During development include a source map. We don't ship this to npm,
@@ -46,14 +38,13 @@ if (process.env.NODE_ENV === 'development') {
   // size increased introduced by shipping both ESM and CJS:
   plugins.push(terser());
 }
-const extraTsFiles = getTsFiles(path.join(__dirname, "./src/plugins"));
 const config: RollupOptions = {
-  input: ['./bin/command.ts', ...extraTsFiles],
+  input: ['./src/index.ts'],
   output,
   watch: {
-    include: ['src/**', 'bin/**'],
+    include: ['src/**'],
   },
-  plugins
+  plugins,
 };
 
 export default config;

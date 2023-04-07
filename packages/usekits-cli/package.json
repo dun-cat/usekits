@@ -1,8 +1,9 @@
 {
   "name": "@usekits/cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "适合个人开发者的命令行工具，提供插件机制来定制属于个人 CLI 命令",
   "main": "./dist/bin/command.js",
+  "types": "./dist/global.d.ts",
   "bin": {
     "use": "./dist/bin/command.js"
   },
