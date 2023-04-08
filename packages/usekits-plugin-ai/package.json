@@ -1,6 +1,6 @@
 {
   "name": "@usekits/plugin-ai",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "usekits AI 插件，集成 chatGPT API",
   "main": "./dist/src/index.js",
   "repository": "git@github.com:dun-cat/usekits.git",

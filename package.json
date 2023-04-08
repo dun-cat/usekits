@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "pnpm --filter=cli dev",
+    "use": "pnpm --filter=cli use",
     "build": "pnpm --filter './packages/*' build",
     "pub": "pnpm --filter './packages/*' publish --access=public"
   }
