@@ -1,6 +1,6 @@
 {
   "name": "@usekits/cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "适合个人开发者的命令行工具，提供插件机制来定制属于个人 CLI 命令",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,7 +9,9 @@
   },
   "files": [
     "dist",
-    "READEME.md"
+    "READEME.md",
+    "!dist/rollup.config.d.ts",
+    "!dist/tsconfig.tsbuildinfo"
   ],
   "repository": "git@github.com:dun-cat/usekits.git",
   "author": "lumin <527724143@qq.com>",
