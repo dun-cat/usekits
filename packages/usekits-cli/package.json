@@ -7,6 +7,10 @@
   "bin": {
     "use": "./dist/bin/command.js"
   },
+  "files": [
+    "dist",
+    "READEME.md"
+  ],
   "repository": "git@github.com:dun-cat/usekits.git",
   "author": "lumin <527724143@qq.com>",
   "license": "MIT",

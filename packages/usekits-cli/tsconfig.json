@@ -32,6 +32,7 @@
     "./src/**/*.ts",
     "./rollup.config.ts",
     "./scripts/*.ts",
-    "index.d.ts"
+    "index.d.ts",
+    "../usekits-plugin-git-commit/src/index.ts"
   ]
 }
