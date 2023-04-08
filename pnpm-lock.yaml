@@ -148,9 +148,6 @@ importers:
       rollup-plugin-terser:
         specifier: ^7.0.2
         version: 7.0.2(rollup@3.20.2)
-      tar^6.1.13:
-        specifier: link:@types/tar^6.1.13
-        version: link:@types/tar^6.1.13
       tslib:
         specifier: ^2.5.0
         version: 2.5.0
