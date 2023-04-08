@@ -10,6 +10,7 @@ import pkgInfo from './package.json';
 
 const output: OutputOptions = {
   preserveModules: true,
+  preserveModulesRoot: "./",
   dir: "dist",
   format: "commonjs",
 };
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV === 'development') {
   // because it significantly increases the module size:
   output.sourcemap = true;
 } else {
+  output.sourcemap = false;
   plugins.push(cleanup({
     comments: 'none',
     extensions: ['*'],
@@ -44,7 +46,7 @@ const config: RollupOptions = {
   watch: {
     include: ['src/**'],
   },
-  plugins,
+  plugins
 };
 
 export default config;

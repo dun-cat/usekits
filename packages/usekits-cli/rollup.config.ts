@@ -16,11 +16,6 @@ const output: OutputOptions = {
 };
 
 const plugins = [
-  copy({
-    targets: [
-      { src: 'global.d.ts', dest: 'dist' }
-    ]
-  }),
   shebang({
     include: 'dist/bin/command.js'
   }),
@@ -38,6 +33,7 @@ if (process.env.NODE_ENV === 'development') {
   // because it significantly increases the module size:
   output.sourcemap = true;
 } else {
+  output.sourcemap = false;
   plugins.push(cleanup({
     comments: 'none',
     extensions: ['*'],
@@ -48,7 +44,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 const extraTsFiles = getTsFiles(path.join(__dirname, "./src/plugins"));
 const config: RollupOptions = {
-  input: ['./bin/command.ts', ...extraTsFiles],
+  input: ['./bin/command.ts', "./index.ts", ...extraTsFiles],
   output,
   watch: {
     include: ['src/**', 'bin/**'],

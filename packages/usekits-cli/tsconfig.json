@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "jsx": "react",
     "moduleResolution": "node",
     "declaration": true,
     "module": "ESNext",
@@ -33,6 +32,6 @@
     "./src/**/*.ts",
     "./rollup.config.ts",
     "./scripts/*.ts",
-    "global.d.ts"
+    "index.d.ts"
   ]
 }

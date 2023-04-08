@@ -1,7 +1,7 @@
 
 import loadModules from "@src/utils/module-dir-loader";
 import { program } from "commander";
-import { UseKitsCLI } from "global";
+import { UseKitsCLI } from "index";
 import path from "path";
 
 const buildInPlugins = loadModules(path.join(__dirname, '../plugins'));

@@ -4,7 +4,7 @@ import { prompt } from 'inquirer';
 import { Command } from 'commander';
 import ora from 'ora';
 import ui from './ui';
-import { UseKitsCLI } from 'global';
+import { UseKitsCLI } from 'index';
 
 export interface Options extends UseKitsCLI.GlobalOptions {
   /**

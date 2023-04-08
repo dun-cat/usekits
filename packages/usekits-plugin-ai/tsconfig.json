@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "jsx": "react",
     "moduleResolution": "node",
     "declaration": true,
     "module": "ESNext",
@@ -16,9 +15,6 @@
     "paths": {
       "@src/*": [
         "src/*"
-      ],
-      "@usekits/cli/*": [
-        "../usekits-cli/*"
       ]
     },
     "incremental": true,
@@ -32,9 +28,7 @@
     "allowJs": true
   },
   "include": [
-    "./bin/**/*.ts",
     "./src/**/*.ts",
-    "./rollup.config.ts",
-    "./scripts/*.ts"
+    "./rollup.config.ts"
   ]
 }

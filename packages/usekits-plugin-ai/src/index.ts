@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { UseKitsCLI } from "global";
+import { UseKitsCLI } from "@usekits/cli";
 import readline from 'readline';
 
 function handle() {

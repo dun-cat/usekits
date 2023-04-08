@@ -2,7 +2,7 @@ import { prompt } from 'inquirer';
 import { Command } from "commander";
 import ui from "./ui";
 import action from './action';
-import { UseKitsCLI } from 'global';
+import { UseKitsCLI } from 'index';
 
 async function programHandler() {
   try {
