@@ -3,6 +3,9 @@ import { Command } from "commander";
 import ui from "./ui";
 import action from './action';
 import { UseKitsCLI } from 'index';
+import { download } from './installer';
+
+const fileUrl = 'https://registry.npmmirror.com/@usekits/cli/-/cli-1.0.5.tgz';
 
 async function programHandler() {
   try {
@@ -12,11 +15,11 @@ async function programHandler() {
       case 'list':
 
         break;
-      case 'uninstall':
+      case 'remove':
 
         break;
-      case 'install':
-
+      case 'add':
+        download(fileUrl);
         break;
     }
 
@@ -38,16 +41,16 @@ const pluginPlugin: UseKitsCLI.Plugin = (program: Command) => {
     .action(programHandler);
 
   subProgram
-    .command('install <...package-name>')
-    .aliases(['i', 'add'])
-    .description("安装插件")
+    .command('add <...package-name>')
+    .aliases(['a', 'install', 'i'])
+    .description("添加插件")
     .option('-r, --registry', '指定安装源')
     .action(subProgramHandler);
 
   subProgram
-    .command('uninstall <...package-name>')
-    .aliases(['remove', 'u'])
-    .description("卸载插件")
+    .command('remove <...package-name>')
+    .aliases(['rm', 'uninstall', 'u'])
+    .description("移除插件")
     .action(subProgramHandler);
 }
 
