@@ -2,11 +2,22 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
-const BASE_DIR_NAME = '.doit'
+export const BASE_DIR_NAME = path.join(os.homedir(), '.usekits');
 
-const configFile = path.join(os.homedir(), BASE_DIR_NAME, 'config.json');
+const configFile = path.join(BASE_DIR_NAME, 'config.json');
 
-const pluginConfigFile = path.join(os.homedir(), BASE_DIR_NAME, 'plugins.json');
+const pluginConfigFile = path.join(BASE_DIR_NAME, 'plugins.json');
+
+const getPluginsDir = () => {
+  const pluginDir = path.join(BASE_DIR_NAME, "plugins");
+  // 检查目录是否存在
+  if (!fs.existsSync(pluginDir)) {
+    // 目录不存在，创建它
+    fs.mkdirSync(pluginDir, { recursive: true });
+  }
+
+  return pluginDir;
+}
 
 interface Config {
   [key: string]: any;
@@ -51,4 +62,4 @@ function getPlugins() {
   return config;
 }
 
-export { getConfig, saveConfig, getPlugins }
+export { getConfig, saveConfig, getPlugins, getPluginsDir }

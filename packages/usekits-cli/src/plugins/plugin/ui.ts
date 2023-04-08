@@ -2,8 +2,12 @@ import chalk from 'chalk';
 import fuzzy from 'fuzzy';
 const choices = [
   {
-    name: '添加插件',
-    value: 'add'
+    name: '添加官方插件',
+    value: 'addOfficialPlugins'
+  },
+  {
+    name: '添加自定义插件',
+    value: 'addCustomPlugins'
   },
   {
     name: '移除插件',
@@ -14,7 +18,7 @@ const choices = [
   }
 ];
 
-const plugins = ['123', '23453', '11']
+const officalPlugins = ['@usekits/plugin-ai']
 
 export default {
   menus: [{
@@ -24,15 +28,19 @@ export default {
     choices,
   }, {
     type: 'input',
-    name: 'pluginName',
-    message: '请输入插件 NPM 包名：',
+    name: 'selectedPlugins',
+    message: '请选择您要安装的官方插件：',
     when(answersSoFar: any) {
-      return answersSoFar.do === 'add'
+      return answersSoFar.do === 'addOfficialPlugins'
     }
-  },
-  {
+  }, {
+    type: 'input',
+    name: 'pluginName',
+    message: '请输入 NPM 包名：'
+  }],
+  remove: [{
     type: 'checkbox-plus',
-    name: 'plugins',
+    name: 'selectedPlugins',
     message: (answersSoFar: any) => {
       return `请选择需要移除的插件：`
     },
@@ -41,15 +49,12 @@ export default {
     source(answersSoFar: any, input: string) {
       input = input || '';
       return new Promise(((resolve) => {
-        const fuzzyResult = fuzzy.filter(input, plugins);
+        const fuzzyResult = fuzzy.filter(input, officalPlugins);
         const data = fuzzyResult.map(function (element) {
           return element.original;
         });
         resolve(data);
       }));
-    },
-    when(answersSoFar: any) {
-      return answersSoFar.do === 'remove'
     }
   }]
 };

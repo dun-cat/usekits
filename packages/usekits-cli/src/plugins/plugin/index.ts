@@ -1,28 +1,32 @@
 import { prompt } from 'inquirer';
 import { Command } from "commander";
 import ui from "./ui";
-import action from './action';
 import { UseKitsCLI } from 'index';
-import { download } from './installer';
+import installer from './installer';
 
-const fileUrl = 'https://registry.npmmirror.com/@usekits/cli/-/cli-1.0.5.tgz';
+function execTasks(tasks: (() => Promise<any>)[]) {
+  return tasks.reduce(function (promise, task) {
+    return promise.then(task)
+  }, Promise.resolve())
+}
 
 async function programHandler() {
   try {
     const step = await prompt(ui.menus);
-    console.log(step)
     switch (step.do) {
       case 'list':
-
         break;
       case 'remove':
-
         break;
-      case 'add':
-        download(fileUrl);
+      case 'addCustomPlugins':
+        installer.add('@usekits/plugin-ai@^1.x');
+      case 'addOfficialPlugins':
+        execTasks([
+          () => installer.add('@usekits/plugin-ai'),
+          () => installer.add('@usekits/cli')
+        ])
         break;
     }
-
   } catch (error) {
     throw error
   }

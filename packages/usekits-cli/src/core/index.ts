@@ -13,7 +13,7 @@ const bootstrap = () => {
   program.option('-d, --debug', '输出额外的调试信息');
   program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
 
-  // 插件命令
+  // 插件初始化
   pluginManager.init();
 
   // create project
