@@ -1,18 +1,23 @@
 import { Command } from "commander";
 import { UseKitsCLI } from "@usekits/cli";
+import chalk from 'chalk';
 import readline from 'readline';
+import { AIPlatorm, createAIProvider } from "./providers";
 
 function handle() {
+
+  const ai = createAIProvider(AIPlatorm.WIT_AI);
+
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
 
-  rl.setPrompt('You: ');
+  rl.setPrompt(`${chalk.bgCyanBright('You')}: `);
   rl.prompt();
 
   rl.on('line', (input) => {
-    console.table([{ a: 1, b: 3 }])
+    ai.chat(input);
     rl.prompt();
   }).on('close', () => {
     console.log('Goodbye!');
@@ -29,5 +34,5 @@ const aiPlugin: UseKitsCLI.Plugin = (program: Command) => {
 }
 
 
-export default aiPlugin
+export default aiPlugin;
 
