@@ -6,11 +6,16 @@ import path from "path";
 import { BASE_DIR_NAME } from "./config";
 import log from '@src/utils/log';
 
+export enum PLUGIN_STATUS {
+  ENABLED = 'enabled', DISABLED = 'disabled'
+}
+
 export interface Plugin {
   name: string;
   homepage: string;
   version: string;
   description: string;
+  status: string;
   path: string; // 插件的绝对安装路径
 }
 

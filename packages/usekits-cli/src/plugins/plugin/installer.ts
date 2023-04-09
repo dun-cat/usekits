@@ -15,7 +15,7 @@ import cliProgress from 'cli-progress';
 // import bytes from 'bytes';
 import ora from 'ora';
 import { resolvePluginName } from './helper';
-import PluginManager from '@src/core/plugin-manager';
+import PluginManager, { PLUGIN_STATUS } from '@src/core/plugin-manager';
 
 type DownloadOptions = {
   url: string;
@@ -104,8 +104,9 @@ async function add(pluginName: string) {
     await (await execaPromise).execa('pnpm',
       ['install', '--registry=https://registry.npmmirror.com/'], { cwd: unpackDir });
     spinner.succeed(`[${chalk.magenta(displayPackageName)}] Installation successful!`)
-    // 注册插件
+    // 注册插件，并设置为启用状态
     PluginManager.getInstance().register({
+      status: PLUGIN_STATUS.ENABLED,
       homepage: localPackage.homepage,
       name: localPackage.name,
       version: localPackage.version,

@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import fuzzy from 'fuzzy';
-import { Plugin } from '@src/core/plugin-manager';
+import { Plugin, PLUGIN_STATUS } from '@src/core/plugin-manager';
 const choices = [
   {
     name: '添加官方插件',
@@ -68,14 +68,24 @@ function createTable(plugins: Plugin[]) {
   const Table = require('cli-table3');
   const table = new Table({
     wordWrap: true,
-    head: [chalk.cyan('name'), chalk.cyan('description'), chalk.cyan('version')],
+    colWidths: [undefined, 40],
+    head: [chalk.cyan('Name'), chalk.cyan('Description'), chalk.cyan('Version'), chalk.cyan('Status')],
   });
   plugins.forEach(plugin => {
-    const { name, version, description, homepage } = plugin;
+    const { name, version, description, homepage, status } = plugin;
+
+    let coloredStatusText = status;
+    switch (status) {
+      case PLUGIN_STATUS.ENABLED:
+        coloredStatusText = chalk.greenBright("On")
+        break;
+      case PLUGIN_STATUS.DISABLED:
+        coloredStatusText = chalk.grey("Off");
+    }
     table.push([homepage ? {
       content: name,
       href: homepage
-    } : name, description, version]);
+    } : name, description, version, coloredStatusText]);
   })
   console.log(table.toString())
 }
