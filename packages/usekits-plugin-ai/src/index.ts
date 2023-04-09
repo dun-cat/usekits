@@ -13,11 +13,11 @@ function handle() {
     output: process.stdout
   });
 
-  rl.setPrompt(`${chalk.bgCyanBright('You')}: `);
+  rl.setPrompt(`${chalk.cyanBright('You')}: `);
   rl.prompt();
 
-  rl.on('line', (input) => {
-    ai.chat(input);
+  rl.on('line', async (input) => {
+    await ai.chat(input);
     rl.prompt();
   }).on('close', () => {
     console.log('Goodbye!');
@@ -28,7 +28,7 @@ function handle() {
 const aiPlugin: UseKitsCLI.Plugin = (program: Command) => {
 
   const subProgram = program
-    .command('ai')
+    .command('aii')
     .description('AI 机器人')
     .action(handle);
 }

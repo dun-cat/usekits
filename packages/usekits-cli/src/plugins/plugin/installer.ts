@@ -55,10 +55,10 @@ function download(fileUrl: string, pluginName: string): Promise<{ targetFile: st
       const totalSize = parseInt(res.headers['content-length'], 10);
       let downloadedSize = 0;
 
-      const progressBar = new ProgressBar(`:status [:bar] :percent`, {
+      const progressBar = new ProgressBar(`:status :bar :percent`, {
         width: 10,
-        complete: chalk.greenBright('-'),
-        incomplete: ' ',
+        complete: chalk.blueBright('-'),
+        incomplete: '-',
         total: totalSize,
       });
 

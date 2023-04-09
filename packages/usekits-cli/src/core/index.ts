@@ -2,6 +2,7 @@ import { init } from '@src/lib/config';
 import runner from '@src/lib/runner';
 import { PACKAGE_VERSION } from '@src/utils/constant';
 import { program } from 'commander';
+import path from 'path';
 import PluginManager from './plugin-manager';
 
 const bootstrap = () => {
@@ -15,6 +16,9 @@ const bootstrap = () => {
 
   // 插件初始化
   PluginManager.getInstance().load();
+
+  const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
+  aiPlugin(program)
 
   // create project
   program

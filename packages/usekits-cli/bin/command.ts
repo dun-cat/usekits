@@ -53,7 +53,7 @@ async function createUI() {
 core.bootstrap();
 // 如果无参数，直接展示入口 UI。
 if (core.argsLength() === 0) {
-  createUI();
+  // createUI();
 } else {
 
 }

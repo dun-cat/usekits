@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'development') {
   plugins.push(terser());
 }
 const config: RollupOptions = {
-  input: ['./src/index.ts'],
+  input: ['./src/index.ts', "./src/providers/wit-ai/index.ts"],
   output,
   watch: {
     include: ['src/**'],

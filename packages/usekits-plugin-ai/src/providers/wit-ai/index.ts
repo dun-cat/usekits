@@ -14,13 +14,19 @@ class WitAI implements Provider {
 
     this.client = new Wit({
       accessToken: "AW2NYROPT4FTWYWKV5Y3F5BULJMK26CC",
-      actions,
+      // actions,
       logger: new log.Logger(log.DEBUG), // optional
     });
   }
-  async chat(text: string): Promise<any> {
-    const res = this.client.message(text);
-    console.log(res)
+  async chat(text: string) {
+    console.log("text", text);
+    try {
+      const res = await this.client.message(text);
+      console.log(res)
+      return res;
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 }

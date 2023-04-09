@@ -14,8 +14,8 @@ export enum AIPlatorm {
 }
 
 const aiModule = new Map();
-aiModule.set(AIPlatorm.WIT_AI, 'open-ai')
-aiModule.set(AIPlatorm.OPEN_AI, 'wit-ai')
+aiModule.set(AIPlatorm.WIT_AI, 'wit-ai')
+aiModule.set(AIPlatorm.OPEN_AI, 'open-ai')
 
 
 export function createAIProvider(aiPlatorm: AIPlatorm) {
@@ -25,6 +25,6 @@ export function createAIProvider(aiPlatorm: AIPlatorm) {
     return null;
   }
   // 加载 AI 模块
-  const ai: Provider = require(path.join(__dirname, modulePath));
-  return ai;
+  const AI = require(path.join(__dirname, modulePath));
+  return new AI() as Provider;
 }
