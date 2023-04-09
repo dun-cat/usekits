@@ -3,7 +3,7 @@ import { program } from "commander";
 import { UseKitsCLI } from "index";
 import * as fs from 'fs-extra';
 import path from "path";
-import { BASE_DIR_NAME } from "./config";
+import { BASE_DIR_NAME, getPluginsDir } from "./config";
 import log from '@src/utils/log';
 
 export enum PLUGIN_STATUS {
@@ -41,11 +41,13 @@ class PluginManager {
       plugin(program);
     }
 
-    // 读取 plugins.json 文件，获取安装的插件列表
+    // 读取 plugins.json 文件，获取已安装的外部插件列表
     try {
       this.plugins = fs.readJSONSync(this.pluginsFilePath);
-      this.plugins.forEach(pluginInfo => {
-        require(pluginInfo.path)(program);
+      this.plugins.forEach(plugin => {
+        if (plugin.status === PLUGIN_STATUS.ENABLED) {
+          require(plugin.path)(program);
+        }
       })
     } catch (error) {
       log.error(error);
@@ -60,18 +62,40 @@ class PluginManager {
     } else {
       this.plugins.push(plugin);
     }
-    // 将更新后的插件列表写回到 plugins.json 文件中
     await fs.writeJSON(this.pluginsFilePath, this.plugins, { spaces: 2 });
   }
 
-  public async remove(pluginName: string): Promise<void> {
-    // 在插件列表中找到对应的插件并将其移除
+  public async remove(pluginName: string) {
     const pluginIndex = this.plugins.findIndex(plugin => plugin.name === pluginName);
     if (pluginIndex !== -1) {
-      this.plugins.splice(pluginIndex, 1);
+      try {
+        const deletePlugin = this.plugins[pluginIndex]
+        this.plugins.splice(pluginIndex, 1);
+        fs.writeJSONSync(this.pluginsFilePath, this.plugins);
+        await fs.remove(path.join(getPluginsDir(), deletePlugin.name))
+      } catch (error) {
+        log.error(error)
+      }
+    }
+  }
 
-      // 将更新后的插件列表写回到 plugins.json 文件中
-      await fs.writeJson(this.pluginsFilePath, this.plugins);
+  public setStatus(pluginName: string, status: PLUGIN_STATUS) {
+    const pluginIndex = this.plugins.findIndex(plugin => plugin.name === pluginName);
+    if (pluginIndex !== -1) {
+      this.plugins[pluginIndex].status = status;
+      fs.writeJSONSync(this.pluginsFilePath, this.plugins);
+    } else {
+      log.error("无此插件~")
+    }
+  }
+
+  public getStatus(pluginName: string) {
+    const pluginIndex = this.plugins.findIndex(plugin => plugin.name === pluginName);
+    if (pluginIndex !== -1) {
+      return this.plugins[pluginIndex].status;
+    } else {
+      log.error("无此插件~")
+      return null
     }
   }
 

@@ -3,7 +3,10 @@ import { Command } from "commander";
 import ui, { createTable } from "./ui";
 import { UseKitsCLI } from 'index';
 import installer from './installer';
-import PluginManager from '@src/core/plugin-manager';
+import log from '@src/utils/log';
+import PluginManager, { PLUGIN_STATUS } from '@src/core/plugin-manager';
+import chalk from 'chalk';
+import ora from 'ora';
 
 
 function execTasks(tasks: (() => Promise<any>)[]) {
@@ -21,19 +24,41 @@ async function programHandler() {
         createTable(plugins);
         break;
       case 'remove':
+        const removeResult = await prompt(ui.remove);
+        if (!removeResult.selectedPlugin) return;
+        const sp = ora("插件删除中...").start();
+        await PluginManager.getInstance().remove(removeResult.selectedPlugin);
+        sp.succeed("删除成功！")
+        break;
+      case 'disableOrEnable':
+        const disableResult = await prompt(ui.disableOrEnable);
+        if (!disableResult.selectedPlugin) return;
+
+        const status = PluginManager.getInstance().getStatus(disableResult.selectedPlugin);
+        switch (status) {
+          case PLUGIN_STATUS.DISABLED:
+            PluginManager.getInstance().setStatus(disableResult.selectedPlugin, PLUGIN_STATUS.ENABLED);
+            log.success(`${chalk.magentaBright(disableResult.selectedPlugin)} [${chalk.greenBright("On")}] 已启用！`)
+            break;
+          case PLUGIN_STATUS.ENABLED:
+            PluginManager.getInstance().setStatus(disableResult.selectedPlugin, PLUGIN_STATUS.DISABLED);
+            log.success(`${chalk.magentaBright(disableResult.selectedPlugin)} [${chalk.redBright("Off")}] 已禁用！`)
+            break;
+        }
         break;
       case 'addCustomPlugins':
-        installer.add('@usekits/plugin-ai@^1.x');
+        if (!step.input) return;
+        installer.add(step.input);
       case 'addOfficialPlugins':
+        if (!step.selectedPlugin) return;
         execTasks([
-          () => installer.add('@usekits/plugin-ai')
+          () => installer.add(step.selectedPlugin)
         ])
         break;
     }
   } catch (error) {
     throw error
   }
-
 }
 
 async function subProgramHandler() {

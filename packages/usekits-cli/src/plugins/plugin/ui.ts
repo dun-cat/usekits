@@ -1,7 +1,10 @@
 import chalk from 'chalk';
-import fuzzy from 'fuzzy';
-import { Plugin, PLUGIN_STATUS } from '@src/core/plugin-manager';
+import PluginManager, { Plugin, PLUGIN_STATUS } from '@src/core/plugin-manager';
 const choices = [
+  {
+    name: '插件列表',
+    value: 'list',
+  },
   {
     name: '添加官方插件',
     value: 'addOfficialPlugins'
@@ -11,15 +14,33 @@ const choices = [
     value: 'addCustomPlugins'
   },
   {
-    name: '移除插件',
+    name: '插件删除',
     value: 'remove'
-  }, {
-    name: '列出插件',
-    value: 'list',
+  },
+  {
+    name: '插件(启用/禁用)',
+    value: 'disableOrEnable'
   }
 ];
 
-const officalPlugins = ['@usekits/plugin-ai']
+const getPluginChoices = () => PluginManager.getInstance().getPlugins()
+  .map((plugin) => {
+    let statusText = plugin.status
+    switch (plugin.status) {
+      case PLUGIN_STATUS.DISABLED:
+        statusText = chalk.redBright('Off')
+        break;
+      case PLUGIN_STATUS.ENABLED:
+        statusText = chalk.greenBright('On')
+        break;
+    }
+    return {
+      name: `${plugin.name} [${statusText}]`,
+      value: plugin.name
+    }
+  })
+
+const officialPlugins = ['@usekits/plugin-ai'];
 
 export default {
   menus: [{
@@ -28,38 +49,34 @@ export default {
     message: '亲，你想做点什么呢?',
     choices,
   }, {
-    type: 'input',
-    name: 'selectedPlugins',
+    type: 'list',
+    name: 'selectedPlugin',
     message: '请选择您要安装的官方插件：',
+    choices: officialPlugins,
     when(answersSoFar: any) {
       return answersSoFar.do === 'addOfficialPlugins'
     }
   }, {
     type: 'input',
-    name: 'pluginName',
+    name: 'input',
     message: '请输入 NPM 包名：',
     when(answersSoFar: any) {
       return answersSoFar.do === 'addCustomPlugins'
     }
   }],
   remove: [{
-    type: 'checkbox-plus',
-    name: 'selectedPlugins',
-    message: (answersSoFar: any) => {
-      return `请选择需要移除的插件：`
-    },
+    type: 'list',
+    name: 'selectedPlugin',
+    message: `选择要移除的插件：`,
     highlight: true,
     searchable: true,
-    source(answersSoFar: any, input: string) {
-      input = input || '';
-      return new Promise(((resolve) => {
-        const fuzzyResult = fuzzy.filter(input, officalPlugins);
-        const data = fuzzyResult.map(function (element) {
-          return element.original;
-        });
-        resolve(data);
-      }));
-    }
+    choices: getPluginChoices
+  }],
+  disableOrEnable: [{
+    type: 'list',
+    name: 'selectedPlugin',
+    message: '选择要 (启用/禁用) 的插件：',
+    choices: getPluginChoices
   }]
 };
 
@@ -69,7 +86,13 @@ function createTable(plugins: Plugin[]) {
   const table = new Table({
     wordWrap: true,
     colWidths: [undefined, 40],
-    head: [chalk.cyan('Name'), chalk.cyan('Description'), chalk.cyan('Version'), chalk.cyan('Status')],
+    style: {
+      hAlign: 'center',
+    },
+    head: [chalk.cyan('Name'), {
+      content: chalk.cyan('Description'),
+      hAlign: 'center',
+    }, chalk.cyan('Version'), chalk.cyan('Status')],
   });
   plugins.forEach(plugin => {
     const { name, version, description, homepage, status } = plugin;
@@ -80,13 +103,16 @@ function createTable(plugins: Plugin[]) {
         coloredStatusText = chalk.greenBright("On")
         break;
       case PLUGIN_STATUS.DISABLED:
-        coloredStatusText = chalk.grey("Off");
+        coloredStatusText = chalk.redBright("Off");
     }
     table.push([homepage ? {
       content: name,
       href: homepage
     } : name, description, version, coloredStatusText]);
   })
+  if (plugins.length === 0) {
+    table.push([{ content: '暂无任何插件哦~', colSpan: 4, hAlign: 'center' }])
+  }
   console.log(table.toString())
 }
 
