@@ -2,7 +2,7 @@ import { init } from '@src/lib/config';
 import runner from '@src/lib/runner';
 import { PACKAGE_VERSION } from '@src/utils/constant';
 import { program } from 'commander';
-import pluginManager from './plugin-manager';
+import PluginManager from './plugin-manager';
 
 const bootstrap = () => {
   // init()
@@ -14,7 +14,7 @@ const bootstrap = () => {
   program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
 
   // 插件初始化
-  pluginManager.init();
+  PluginManager.getInstance().load();
 
   // create project
   program

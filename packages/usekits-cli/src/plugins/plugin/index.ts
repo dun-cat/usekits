@@ -1,8 +1,10 @@
 import { prompt } from 'inquirer';
 import { Command } from "commander";
-import ui from "./ui";
+import ui, { createTable } from "./ui";
 import { UseKitsCLI } from 'index';
 import installer from './installer';
+import PluginManager from '@src/core/plugin-manager';
+
 
 function execTasks(tasks: (() => Promise<any>)[]) {
   return tasks.reduce(function (promise, task) {
@@ -15,6 +17,8 @@ async function programHandler() {
     const step = await prompt(ui.menus);
     switch (step.do) {
       case 'list':
+        const plugins = PluginManager.getInstance().getPlugins();
+        createTable(plugins);
         break;
       case 'remove':
         break;
@@ -22,8 +26,7 @@ async function programHandler() {
         installer.add('@usekits/plugin-ai@^1.x');
       case 'addOfficialPlugins':
         execTasks([
-          () => installer.add('@usekits/plugin-ai'),
-          () => installer.add('@usekits/cli')
+          () => installer.add('@usekits/plugin-ai')
         ])
         break;
     }

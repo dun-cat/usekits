@@ -15,12 +15,13 @@ import cliProgress from 'cli-progress';
 // import bytes from 'bytes';
 import ora from 'ora';
 import { resolvePluginName } from './helper';
+import PluginManager from '@src/core/plugin-manager';
 
 type DownloadOptions = {
   url: string;
 }
 
-async function unPack(originFile: string, name: string): Promise<{ unpackDir: string; }> {
+async function unPack(originFile: string, name: string): Promise<{ unpackDir: string; localPackage: any; }> {
   const unpackDir = path.join(getPluginsDir(), name)
   const readStream = fs.createReadStream(originFile);
   const unzipStream = zlib.createGunzip();
@@ -32,7 +33,10 @@ async function unPack(originFile: string, name: string): Promise<{ unpackDir: st
   readStream.pipe(unzipStream).pipe(extractStream);
   return new Promise((resolve, reject) => {
     extractStream.on('finish', () => {
-      resolve({ unpackDir });
+      resolve({
+        unpackDir,
+        localPackage: require(path.join(unpackDir, 'package.json'))
+      });
     });
     readStream.on('error', reject);
     unzipStream.on('error', reject);
@@ -95,11 +99,19 @@ async function add(pluginName: string) {
     const { targetFile } = await download(pkg.tarball, displayPackageName);
     spinner.start();
     // 解压
-    const { unpackDir } = await unPack(targetFile, pkg.name);
+    const { unpackDir, localPackage } = await unPack(targetFile, pkg.name);
     // 安装依赖
     await (await execaPromise).execa('pnpm',
       ['install', '--registry=https://registry.npmmirror.com/'], { cwd: unpackDir });
     spinner.succeed(`[${chalk.magenta(displayPackageName)}] Installation successful!`)
+    // 注册插件
+    PluginManager.getInstance().register({
+      homepage: localPackage.homepage,
+      name: localPackage.name,
+      version: localPackage.version,
+      description: localPackage.description,
+      path: unpackDir
+    })
   } catch (error) {
     spinner.stop();
     log.error(error)

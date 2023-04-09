@@ -1,6 +1,7 @@
 {
   "name": "@usekits/cli",
   "version": "1.0.7",
+  "homepage": "https://github.com/dun-cat/usekits#readme",
   "description": "适合个人开发者的命令行工具，提供插件机制来定制属于个人 CLI 命令",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,6 +35,7 @@
     "@rollup/plugin-multi-entry": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
+    "@types/fs-extra": "^11.0.1",
     "@types/node": "^18.15.11",
     "eslint": "^5.15.2",
     "eslint-config-airbnb": "^17.1.0",
@@ -56,6 +58,7 @@
     "bytes": "^3.1.2",
     "chalk": "^2.4.2",
     "cli-progress": "^3.12.0",
+    "cli-table3": "^0.6.3",
     "commander": "^10.0.0",
     "download": "^7.1.0",
     "download-git-repo": "^2.0.0",

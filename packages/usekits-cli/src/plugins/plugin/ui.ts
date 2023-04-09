@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import fuzzy from 'fuzzy';
+import { Plugin } from '@src/core/plugin-manager';
 const choices = [
   {
     name: '添加官方插件',
@@ -36,7 +37,10 @@ export default {
   }, {
     type: 'input',
     name: 'pluginName',
-    message: '请输入 NPM 包名：'
+    message: '请输入 NPM 包名：',
+    when(answersSoFar: any) {
+      return answersSoFar.do === 'addCustomPlugins'
+    }
   }],
   remove: [{
     type: 'checkbox-plus',
@@ -58,3 +62,24 @@ export default {
     }
   }]
 };
+
+
+function createTable(plugins: Plugin[]) {
+  const Table = require('cli-table3');
+  const table = new Table({
+    wordWrap: true,
+    head: [chalk.cyan('name'), chalk.cyan('description'), chalk.cyan('version')],
+  });
+  plugins.forEach(plugin => {
+    const { name, version, description, homepage } = plugin;
+    table.push([homepage ? {
+      content: name,
+      href: homepage
+    } : name, description, version]);
+  })
+  console.log(table.toString())
+}
+
+export {
+  createTable
+}
