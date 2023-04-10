@@ -196,6 +196,9 @@ importers:
       ora:
         specifier: ^3.4.0
         version: 3.4.0
+      rimraf:
+        specifier: ^2.6.3
+        version: 2.6.3
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^24.0.1
