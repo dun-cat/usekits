@@ -6,7 +6,7 @@ import { AIPlatorm, createAIProvider } from "./providers";
 
 function handle() {
 
-  const ai = createAIProvider(AIPlatorm.WIT_AI);
+  const ai = createAIProvider(AIPlatorm.TENCENT_AI);
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -14,11 +14,12 @@ function handle() {
   });
 
   rl.setPrompt(`${chalk.cyanBright('You')}: `);
+
   rl.prompt();
 
   rl.on('line', async (input) => {
-    await ai.chat(input);
-    rl.prompt();
+    await ai.startASR();
+    // rl.prompt();
   }).on('close', () => {
     console.log('Goodbye!');
     process.exit(0);

@@ -78,9 +78,6 @@ importers:
       require-dir:
         specifier: ^1.2.0
         version: 1.2.0
-      rimraf:
-        specifier: ^2.6.3
-        version: 2.6.3
       semver:
         specifier: ^7.3.8
         version: 7.3.8
@@ -136,6 +133,9 @@ importers:
       lint-staged:
         specifier: ^8.1.5
         version: 8.1.5
+      rimraf:
+        specifier: ^2.6.3
+        version: 2.6.3
       rollup:
         specifier: ^3.20.2
         version: 3.20.2
@@ -196,9 +196,12 @@ importers:
       ora:
         specifier: ^3.4.0
         version: 3.4.0
-      rimraf:
-        specifier: ^2.6.3
-        version: 2.6.3
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
+      ws:
+        specifier: ^8.13.0
+        version: 8.13.0
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^24.0.1
@@ -215,6 +218,9 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^11.0.0
         version: 11.0.0(rollup@3.20.2)(tslib@2.5.0)(typescript@5.0.3)
+      rimraf:
+        specifier: ^2.6.3
+        version: 2.6.3
       rollup:
         specifier: ^3.20.2
         version: 3.20.2
@@ -6392,6 +6398,19 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       mkdirp: 0.5.6
+
+  /ws@8.13.0:
+    resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
 
   /xml2js@0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
