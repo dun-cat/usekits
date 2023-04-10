@@ -17,8 +17,8 @@ const bootstrap = () => {
   // 插件初始化
   PluginManager.getInstance().load();
 
-  const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
-  aiPlugin(program)
+  // const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
+  // aiPlugin(program)
 
   // create project
   program

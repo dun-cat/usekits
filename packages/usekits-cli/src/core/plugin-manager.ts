@@ -24,7 +24,18 @@ class PluginManager {
   private readonly pluginsFilePath = path.resolve(BASE_DIR_NAME, 'plugins.json');
   private plugins: Plugin[];
 
-  private constructor() { }
+  private constructor() {
+    // 确保路径存在，如果不存在则创建
+    const dir = path.dirname(this.pluginsFilePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    // 检查文件是否存在
+    if (!fs.existsSync(this.pluginsFilePath)) {
+      // 如果文件不存在，创建一个新文件并写入内容
+      fs.writeFileSync(this.pluginsFilePath, '[]');
+    }
+  }
 
   public static getInstance(): PluginManager {
     if (!PluginManager.instance) {
