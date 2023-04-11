@@ -46,6 +46,7 @@ const extraTsFiles = getTsFiles(path.join(__dirname, "./src/plugins"));
 const config: RollupOptions = {
   input: ['./bin/command.ts', "./index.ts", ...extraTsFiles],
   output,
+  external: ['tslib'],
   watch: {
     include: ['src/**', 'bin/**'],
   },

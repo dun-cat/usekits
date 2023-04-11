@@ -3,31 +3,40 @@ import runner from '@src/lib/runner';
 import { PACKAGE_VERSION } from '@src/utils/constant';
 import { program } from 'commander';
 import path from 'path';
+import MyConfig from './config/config';
 import PluginManager from './plugin-manager';
 
 const bootstrap = () => {
   // init()
 
-  // 全局命令
-  program.version(PACKAGE_VERSION, '-v, --version', '当前版本号');
-  // 初始接受参数
-  program.option('-d, --debug', '输出额外的调试信息');
-  program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
+  const config = new MyConfig();
 
-  // 插件初始化
-  PluginManager.getInstance().load();
+  // config.abc.aa = 12;
+  config.abc.bb.ccc = "ddd";
+  config.abc.bb.ddd = [3, 24];
 
-  const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
-  aiPlugin(program)
+  // console.log(config)
 
-  // create project
-  program
-    .command('init')
-    .option('-git', '是否初始化git')
-    .action((options) => {
-      runner.createProject(options);
-    });
-  program.parse();
+  // // 全局命令
+  // program.version(PACKAGE_VERSION, '-v, --version', '当前版本号');
+  // // 初始接受参数
+  // program.option('-d, --debug', '输出额外的调试信息');
+  // program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
+
+  // // 插件初始化
+  // PluginManager.getInstance().load();
+
+  // const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
+  // aiPlugin(program)
+
+  // // create project
+  // program
+  //   .command('init')
+  //   .option('-git', '是否初始化git')
+  //   .action((options) => {
+  //     runner.createProject(options);
+  //   });
+  // program.parse();
 }
 
 function argsLength() {
