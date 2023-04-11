@@ -2,9 +2,11 @@ import { Command } from 'commander';
 
 import log from './src/utils/log';
 import cwd from './src/utils/cwd';
+import PluginManager from '@src/core/plugin-manager';
+import { PluginConfig } from '@src/core/config/decorator';
 
 export {
-  log, cwd
+  log, cwd, PluginManager, PluginConfig,
 }
 
 export declare namespace UseKitsCLI {

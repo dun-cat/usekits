@@ -1,10 +1,1 @@
-class UsekitsCache<T> {
-
-  set() {
-
-  }
-
-  get() {
-
-  }
-}
+export * from './reactive';

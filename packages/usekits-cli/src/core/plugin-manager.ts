@@ -23,6 +23,7 @@ class PluginManager {
   private static instance: PluginManager;
   private readonly pluginsFilePath = path.resolve(BASE_DIR_NAME, 'plugins.json');
   private plugins: Plugin[];
+  public readonly pluginDataDir = path.join(BASE_DIR_NAME, 'data');
 
   private constructor() {
     // 确保路径存在，如果不存在则创建
