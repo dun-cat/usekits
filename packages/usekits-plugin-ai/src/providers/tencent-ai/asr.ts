@@ -4,7 +4,7 @@ import crypto from 'crypto';
 
 
 function getConnectUrl() {
-  const secretid = 'AKIDoVzGL8fuGVdW9VcT8bp2uZ2HIyO3UgeM';
+  const secretid = '111';
   const timestamp = Math.floor(Date.now() / 1000);
   const expired = timestamp + 60 * 60 * 24 * 10;
   const nonce = Math.floor(Math.random() * 10000)
@@ -16,7 +16,7 @@ function getConnectUrl() {
   Object.keys(params).sort((a, b) => a.localeCompare(b)).
     forEach(key => resultUrl.searchParams.append(key, params[key]));
 
-  const hmac = crypto.createHmac('sha1', "Ysyrb9VeaKp6EG4epnV1HNFuLXUCgvDR");
+  const hmac = crypto.createHmac('sha1', "111");
   const text = resultUrl.hostname + resultUrl.pathname + resultUrl.search;
 
   hmac.update(text);
