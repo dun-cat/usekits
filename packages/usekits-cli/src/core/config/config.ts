@@ -1,6 +1,6 @@
 import { PluginConfig } from '@src/core/config/decorator';
 
-@PluginConfig('hello')
+@PluginConfig()
 class MyConfig {
   hello = 1;
   greeting = 2;

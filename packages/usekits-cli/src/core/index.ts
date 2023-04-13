@@ -9,25 +9,18 @@ import PluginManager from './plugin-manager';
 const bootstrap = () => {
   // init()
 
-  const config = new MyConfig();
 
-  // config.abc.aa = 12;
-  config.abc.bb.ccc = "ddd";
-  config.abc.bb.ddd = [3, 24];
+  // 全局命令
+  program.version(PACKAGE_VERSION, '-v, --version', '当前版本号');
+  // 初始接受参数
+  program.option('-d, --debug', '输出额外的调试信息');
+  program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
 
-  // console.log(config)
+  // 插件初始化
+  PluginManager.getInstance().load();
 
-  // // 全局命令
-  // program.version(PACKAGE_VERSION, '-v, --version', '当前版本号');
-  // // 初始接受参数
-  // program.option('-d, --debug', '输出额外的调试信息');
-  // program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
-
-  // // 插件初始化
-  // PluginManager.getInstance().load();
-
-  // const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
-  // aiPlugin(program)
+  const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
+  aiPlugin(program)
 
   // // create project
   // program
@@ -36,7 +29,7 @@ const bootstrap = () => {
   //   .action((options) => {
   //     runner.createProject(options);
   //   });
-  // program.parse();
+  program.parse();
 }
 
 function argsLength() {

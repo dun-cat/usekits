@@ -9,17 +9,11 @@ import chalk from 'chalk';
 import path from 'path';
 import * as os from 'os';
 import { getPluginsDir } from '@src/core/config';
-import cwd from '@src/utils/cwd';
 import log from '@src/utils/log';
-import cliProgress from 'cli-progress';
 // import bytes from 'bytes';
 import ora from 'ora';
 import { resolvePluginName } from './helper';
 import PluginManager, { PLUGIN_STATUS } from '@src/core/plugin-manager';
-
-type DownloadOptions = {
-  url: string;
-}
 
 async function unPack(originFile: string, name: string): Promise<{ unpackDir: string; localPackage: any; }> {
   const unpackDir = path.join(getPluginsDir(), name)
