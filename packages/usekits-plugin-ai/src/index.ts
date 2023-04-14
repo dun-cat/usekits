@@ -4,6 +4,7 @@ import chalk from 'chalk';
 import readline from 'readline';
 import { AIPlatorm, createAIProvider } from "./providers";
 import config from "./config";
+import { record } from "./utils/recorder";
 
 function handle() {
 
@@ -19,6 +20,7 @@ function handle() {
   rl.prompt();
 
   rl.on('line', async (input) => {
+
     await ai.startASR();
     // rl.prompt();
   }).on('close', () => {
