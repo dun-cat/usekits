@@ -18,12 +18,9 @@ function getConnectUrl() {
 
   const hmac = crypto.createHmac('sha1', "111");
   const text = resultUrl.hostname + resultUrl.pathname + resultUrl.search;
-
   hmac.update(text);
   const signature = hmac.digest().toString('base64');
-  console.log('signature', signature)
   resultUrl.searchParams.append('signature', signature);
-  console.log(resultUrl.href)
   return resultUrl.href;
 }
 

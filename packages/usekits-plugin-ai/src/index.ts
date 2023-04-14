@@ -3,6 +3,7 @@ import { UseKitsCLI } from "@usekits/cli";
 import chalk from 'chalk';
 import readline from 'readline';
 import { AIPlatorm, createAIProvider } from "./providers";
+import config from "./config";
 
 function handle() {
 
