@@ -1,29 +1,31 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
+import { record } from '@src/utils/recorder';
 
 
 function getConnectUrl() {
-  const secretid = '111';
+  const secretid = '';
   const timestamp = Math.floor(Date.now() / 1000);
   const expired = timestamp + 60 * 60 * 24 * 10;
   const nonce = Math.floor(Math.random() * 10000)
+  const voice_format = 1;
+  const needvad = 1;
   const engine_model_type = '16k_zh';
   const voice_id = uuidv4();
   const resultUrl = new URL('wss://asr.cloud.tencent.com/asr/v2/1300883601');
 
-  const params = { secretid, timestamp, expired, nonce, engine_model_type, voice_id };
+  const params = { secretid, timestamp, expired, nonce, engine_model_type, voice_id, voice_format, needvad };
   Object.keys(params).sort((a, b) => a.localeCompare(b)).
     forEach(key => resultUrl.searchParams.append(key, params[key]));
 
-  const hmac = crypto.createHmac('sha1', "111");
+  const hmac = crypto.createHmac('sha1', "");
   const text = resultUrl.hostname + resultUrl.pathname + resultUrl.search;
 
   hmac.update(text);
   const signature = hmac.digest().toString('base64');
-  console.log('signature', signature)
+
   resultUrl.searchParams.append('signature', signature);
-  console.log(resultUrl.href)
   return resultUrl.href;
 }
 
@@ -62,12 +64,19 @@ type Response = {
 function connect() {
   return new Promise((resolve) => {
     const ws = new WebSocket(getConnectUrl());
-
+    let text = "";
+    let paddingText = "";
     ws.on('error', console.error);
 
     ws.on('open', function open() {
       console.log('connected');
-      resolve('connected');
+
+      record((data) => {
+        setInterval(() => {
+          ws.send(data);
+        }, 40);
+      })
+      // resolve('connected');
       // ws.send(Date.now());
     });
 
@@ -77,11 +86,20 @@ function connect() {
 
     ws.on('message', function message(data: Response) {
       const response = JSON.parse(String(data));
-      console.log(response);
+      if (response.code === 0) {
+        console.clear();
+        console.log(response?.result)
+        // if (response?.result?.slice_type === 2) {
+        //   paddingText = ""
+        //   text += response?.result?.voice_text_str
+        //   console.log(text)
+        // } else if (response?.result?.slice_type === 1) {
+        //   console.log(response?.result?.voice_text_str)
+        // }
 
-      // setTimeout(function timeout() {
-      //   ws.send(Date.now());
-      // }, 500);
+      } else {
+        console.log(response)
+      }
     });
   });
 

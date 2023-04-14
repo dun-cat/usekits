@@ -6,7 +6,7 @@
   "author": "lumin <527724143@qq.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "pnpm --filter=cli dev",
+    "dev": "pnpm --parallel --filter './packages/*' run dev",
     "use": "pnpm --filter=cli use",
     "build": "pnpm --filter './packages/*' build",
     "pub": "pnpm --filter './packages/*' publish --access=public"
