@@ -11,5 +11,8 @@
     "use": "pnpm --filter=cli use",
     "build": "pnpm --filter './packages/*' build",
     "pub": "pnpm --filter './packages/*' publish --access=public"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.7"
   }
 }

@@ -20,7 +20,6 @@ function handle() {
   rl.prompt();
 
   rl.on('line', async (input) => {
-
     await ai.startASR();
     // rl.prompt();
   }).on('close', () => {

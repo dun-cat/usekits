@@ -2,10 +2,11 @@ import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
 import { record } from '@src/utils/recorder';
+import dayjs from 'dayjs';
 
 
 function getConnectUrl() {
-  const secretid = '';
+  const secretid = 'AKID6DDFOTK7rcCe3HI5c5LML7dv0qSYXMwb';
   const timestamp = Math.floor(Date.now() / 1000);
   const expired = timestamp + 60 * 60 * 24 * 10;
   const nonce = Math.floor(Math.random() * 10000)
@@ -13,13 +14,37 @@ function getConnectUrl() {
   const needvad = 1;
   const engine_model_type = '16k_zh';
   const voice_id = uuidv4();
+
+  // 以下为非必填参数，可跟据业务自行修改
+  const hotword_id = '08003a00000000000000000000000000';
+  const filter_dirty = 1;
+  const filter_modal = 2;
+  const filter_punc = 0;
+  const convert_num_mode = 1;
+  const word_info = 2;
+
   const resultUrl = new URL('wss://asr.cloud.tencent.com/asr/v2/1300883601');
 
-  const params = { secretid, timestamp, expired, nonce, engine_model_type, voice_id, voice_format, needvad };
+  const params = {
+    secretid,
+    timestamp,
+    expired,
+    nonce,
+    engine_model_type,
+    voice_id,
+    voice_format,
+    needvad,
+    hotword_id,
+    filter_dirty,
+    filter_modal,
+    filter_punc,
+    convert_num_mode,
+    word_info
+  };
   Object.keys(params).sort((a, b) => a.localeCompare(b)).
     forEach(key => resultUrl.searchParams.append(key, params[key]));
 
-  const hmac = crypto.createHmac('sha1', "");
+  const hmac = crypto.createHmac('sha1', "cAUaQGtNfiU0KYXJrBTVJsGQK0Xoqb8m");
   const text = resultUrl.hostname + resultUrl.pathname + resultUrl.search;
   hmac.update(text);
   const signature = hmac.digest().toString('base64');
@@ -62,17 +87,19 @@ type Response = {
 function connect() {
   return new Promise((resolve) => {
     const ws = new WebSocket(getConnectUrl());
-    let text = "";
+    let text = [];
     let paddingText = "";
     ws.on('error', console.error);
 
     ws.on('open', function open() {
       console.log('connected');
-
+      let pcmData = null;
+      setInterval(() => {
+        if (pcmData === null) return;
+        ws.send(pcmData);
+      }, 40);
       record((data) => {
-        setInterval(() => {
-          ws.send(data);
-        }, 40);
+        pcmData = data;
       })
       // resolve('connected');
       // ws.send(Date.now());
@@ -85,15 +112,28 @@ function connect() {
     ws.on('message', function message(data: Response) {
       const response = JSON.parse(String(data));
       if (response.code === 0) {
-        console.clear();
-        console.log(response?.result)
-        // if (response?.result?.slice_type === 2) {
-        //   paddingText = ""
-        //   text += response?.result?.voice_text_str
-        //   console.log(text)
-        // } else if (response?.result?.slice_type === 1) {
-        //   console.log(response?.result?.voice_text_str)
-        // }
+
+
+        if (response.final === 1) {
+          console.log('结束')
+
+          console.log(response?.result)
+          return;
+        }
+        if (response.result) {
+          if (response.result.slice_type === 0) {
+
+          } else if (response.result.slice_type === 2) {
+            console.clear();
+            text.push(`${dayjs().format('hh:mm:ss')}: ${response?.result?.voice_text_str}`)
+            console.log(text.join('\n'))
+          } else {
+            console.clear();
+            console.log('OnRecognitionResultChange', response?.result)
+          }
+        } else {
+          console.log(response)
+        }
 
       } else {
         console.log(response)
