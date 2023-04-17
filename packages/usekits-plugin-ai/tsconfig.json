@@ -29,6 +29,8 @@
   },
   "include": [
     "./src/**/*.ts",
-    "./rollup.config.ts"
+    "./rollup.config.ts",
+    "./scripts/*.ts",
+    "index.d.ts",
   ]
 }

@@ -8,7 +8,7 @@ import { record } from "./utils/recorder";
 
 function handle() {
 
-  const ai = createAIProvider(AIPlatorm.TENCENT_AI);
+  const ai = createAIProvider(AIPlatorm.OPEN_AI);
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -20,8 +20,9 @@ function handle() {
   rl.prompt();
 
   rl.on('line', async (input) => {
-    await ai.startASR();
-    // rl.prompt();
+    const text = await ai.chat(input)
+    console.log(`${chalk.redBright('AI')}: ${text.content}`);
+    rl.prompt();
   }).on('close', () => {
     console.log('Goodbye!');
     process.exit(0);

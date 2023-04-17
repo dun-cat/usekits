@@ -7,6 +7,7 @@ import copy from 'rollup-plugin-copy';
 import shebang from 'rollup-plugin-add-shebang';
 import path from 'path';
 import pkgInfo from './package.json';
+import { getTsFiles } from './scripts/getTsFile';
 
 const output: OutputOptions = {
   preserveModules: true,
@@ -40,9 +41,11 @@ if (process.env.NODE_ENV === 'development') {
   // size increased introduced by shipping both ESM and CJS:
   plugins.push(terser());
 }
+const extraTsFiles = getTsFiles(path.join(__dirname, "./src/providers"));
 const config: RollupOptions = {
-  input: ['./src/index.ts', "./src/providers/tencent-ai/index.ts"],
+  input: ['./src/index.ts', ...extraTsFiles],
   output,
+  external: ['tslib'],
   watch: {
     include: ['src/**'],
   },
