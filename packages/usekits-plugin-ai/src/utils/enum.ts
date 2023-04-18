@@ -1,0 +1,3 @@
+export enum ASR_TYPE {
+  REAL_TIME, SINGLE_SHOT
+}

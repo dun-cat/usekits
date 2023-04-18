@@ -1,3 +1,4 @@
+import { ASR_TYPE } from "@src/utils/enum";
 import { log } from "@usekits/cli";
 import path from 'path';
 
@@ -7,7 +8,7 @@ export type Text = {
 
 export interface Provider {
   chat?: (text: string) => Promise<Text>
-  startASR?: () => Promise<any>;
+  startASR?: (type: ASR_TYPE) => Promise<any>;
 }
 
 export enum AIPlatorm {
