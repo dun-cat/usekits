@@ -5,7 +5,12 @@ import readline from 'readline';
 import { AIPlatorm, createAIProvider } from "./providers";
 import config from "./config";
 import { record } from "./utils/recorder";
-
+import { marked } from 'marked';
+import Renderer from "./utils/marked-terminal";
+marked.setOptions({
+  // Define custom renderer
+  renderer: new Renderer()
+});
 function handle() {
 
   const ai = createAIProvider(AIPlatorm.OPEN_AI);
@@ -21,7 +26,7 @@ function handle() {
 
   rl.on('line', async (input) => {
     const text = await ai.chat(input)
-    console.log(`${chalk.redBright('AI')}: ${text.content}`);
+    console.log(`${chalk.redBright('AI')}: ${marked(text.content)}`);
     rl.prompt();
   }).on('close', () => {
     console.log('Goodbye!');
