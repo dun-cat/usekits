@@ -30,9 +30,15 @@ class OpenAI implements Provider {
         // model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: text }],
       }, axiosConfig);
-      return {
-        content: completion.data.choices[0].message.content
-      };
+      if (completion?.data?.choices?.length > 0) {
+        return {
+          content: completion.data.choices[0].message.content
+        };
+      } else {
+        log.error(completion.data)
+        return { content: 'no choices' }
+      }
+
     } catch (error) {
       log.error(error)
     }
