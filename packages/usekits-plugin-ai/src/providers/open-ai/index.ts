@@ -7,7 +7,7 @@ import { Provider, Text } from "..";
 const proxy = process.env.socks_proxy || 'socks://127.0.0.1:1081';
 
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: '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',
 });
 const openai = new OpenAIApi(configuration);
 
@@ -35,6 +35,7 @@ class OpenAI implements Provider {
 
     } catch (error) {
       log.error(error)
+      return { content: '' }
     }
 
   };

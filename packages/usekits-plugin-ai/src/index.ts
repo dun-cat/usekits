@@ -26,7 +26,7 @@ function handle() {
 
   rl.on('line', async (input) => {
     const text = await ai.chat(input)
-    console.log(`${chalk.redBright('AI')}: ${marked(text.content)}`);
+    console.log(`${chalk.redBright('AI')}:\n${marked(text.content)}`);
     rl.prompt();
   }).on('close', () => {
     console.log('Goodbye!');
