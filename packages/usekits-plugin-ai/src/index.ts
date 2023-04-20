@@ -26,9 +26,12 @@ function handle() {
   // rl.prompt();
 
   const recorder = new Recorder();
-  recorder.on('reading', (data) => {
-    console.log('helo')
+  recorder.on('recording', (data) => {
+
   })
+  recorder.on('end', () => {
+    console.log('end')
+  });
 
   // rl.on('line', async (input) => {
   // const recorder = new Recorder();
