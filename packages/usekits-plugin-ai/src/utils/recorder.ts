@@ -1,31 +1,27 @@
 import EventEmitter from 'events';
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 import ora from 'ora';
-import longPress from './event';
-
-
+import readline from 'readline';
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
 
 
 class Recorder extends EventEmitter {
-  spinner: ora.Ora;
+  spinner: ora.Ora = ora();
   rec: ChildProcessWithoutNullStreams;
+  status: 'recording' | 'stoped' = 'stoped';
   onReading(data: Buffer) {
-    this.spinner = ora({
-      text: '说话中...',
-      spinner: {
-        interval: 80, // Optional
-        frames: ['█▒▒▒▒▒▒▒▒▒', '███▒▒▒▒▒▒▒', ' █████▒▒▒▒▒',
-          ' ███████▒▒▒', ' ██████████']
-      }
-    }).start();
     this.emit('reading', data);
   }
   onError(error: Error) {
 
   }
-  onStop() {
-    this.spinner && this.spinner.stop();
-
+  stop() {
+    if (this.spinner) {
+      this.spinner.text = '【空格键】开始讲话';
+      this.spinner.stop();
+    }
+    this.rec && this.rec.kill();
   }
   constructor() {
     super();
@@ -36,10 +32,6 @@ class Recorder extends EventEmitter {
     });
   }
 
-  public reset() {
-    this.rec && this.rec.kill();
-    console.log('长按空格开始讲话')
-  }
 
   public start() {
     // 使用 spawn 方法创建 rec 子进程
@@ -51,26 +43,30 @@ class Recorder extends EventEmitter {
       '-e', 'signed-integer',
       '--buffer', '1280',
       '-']);
-
     // 监听 rec 子进程的标准输出流，并在数据可用时进行处理
     this.rec.stdout.on('data', this.onReading);
     this.rec.stdout.on('error', this.onError);
+    this.spinner.text = '说话中...';
+    this.spinner.start();
   }
 
   private ready() {
-    this.reset();
-    console.log('ready')
-    longPress({
-      key: ' ',
-      timeout: 6000,
-      onDown: () => {
-        console.log('down')
-        this.start()
-      },
-      onUp: () => {
-        console.log('up')
-        this.onStop();
-        this.reset()
+    process.stdin.on('keypress', (str, key) => {
+      if (key.ctrl && key.name === 'c') {
+        process.exit();
+      }
+      if (key.name === 'space') {
+        switch (this.status) {
+          case 'recording':
+            this.status = 'stoped'
+            this.stop();
+            break;
+          case 'stoped':
+            this.status = 'recording'
+            this.start();
+            break;
+        }
+
       }
     });
   }

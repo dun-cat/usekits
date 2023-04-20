@@ -27,7 +27,7 @@ function handle() {
 
   const recorder = new Recorder();
   recorder.on('reading', (data) => {
-    console.log('hello')
+    console.log('helo')
   })
 
   // rl.on('line', async (input) => {
