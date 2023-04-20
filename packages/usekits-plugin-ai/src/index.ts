@@ -1,52 +1,62 @@
 import { Command } from "commander";
 import { UseKitsCLI } from "@usekits/cli";
 import chalk from 'chalk';
-import readline from 'readline';
 import { AIPlatorm, createAIProvider } from "./providers";
-import config from "./config";
 import { marked } from 'marked';
 import Renderer from "./utils/marked-terminal";
 import { ASR_TYPE } from "./utils/enum";
-import Recorder from "./utils/recorder";
+import ora from "ora";
 marked.setOptions({
   // Define custom renderer
   renderer: new Renderer()
 });
-function handle() {
+async function handle() {
 
-  const ai = createAIProvider(AIPlatorm.OPEN_AI);
-
+  const tencentAI = createAIProvider(AIPlatorm.TENCENT_AI);
+  const openAI = createAIProvider(AIPlatorm.OPEN_AI);
   // const rl = readline.createInterface({
   //   input: process.stdin,
   //   output: process.stdout
   // });
+  let loop = true
+  while (loop) {
+    try {
+      const myText = await tencentAI.startASR(ASR_TYPE.SINGLE_SHOT);
+      console.log(`${chalk.cyanBright('You')}: ${myText.content}`);
+      const spinner = ora();
+      spinner.spinner = 'grenade';
+      spinner.start();
+      const aiText = await openAI.chat(myText.content);
+      spinner.stop();
+      console.log(`\n${chalk.redBright('AI')}: ${marked(aiText.content)}`);
+    } catch (error) {
+      loop = false;
+    }
+  }
+
 
   // rl.setPrompt(`${chalk.cyanBright('You')}: `);
 
   // rl.prompt();
 
-  const recorder = new Recorder();
-  recorder.on('recording', (data) => {
 
-  })
-  recorder.on('end', () => {
-    console.log('end')
-  });
 
   // rl.on('line', async (input) => {
-  // const recorder = new Recorder();
-  // recorder.on('reading', (data) => {
-  //   console.log('hello')
-  // })
-  // recorder.start();
-  // const text = await ai.chat(input)
-  // const text = await ai.startASR(ASR_TYPE.SINGLE_SHOT)
+  //   // const recorder = new Recorder();
+  //   // recorder.on('reading', (data) => {
+  //   //   console.log('hello')
+  //   // })
+  //   // recorder.start();
+  //   // const text = await ai.chat(input)
+
+
   // console.log(`${chalk.redBright('AI')}: ${marked(text.content)}`);
-  // rl.prompt();
+  //   // rl.prompt();
   // }).on('close', () => {
   //   console.log('Goodbye!');
   //   process.exit(0);
   // });
+
 }
 
 const aiPlugin: UseKitsCLI.Plugin = (program: Command) => {

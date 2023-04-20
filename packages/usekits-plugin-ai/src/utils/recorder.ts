@@ -15,22 +15,22 @@ class Recorder extends EventEmitter {
   spinner: ora.Ora = ora();
   rec: ChildProcessWithoutNullStreams;
   status: STATUS = STATUS.READY;
+  totalRecordedData: Buffer = Buffer.from('');
+  keypressHandler;
 
   constructor() {
     super();
     this.ready();
-    // 监听 Node.js 程序的退出事件，退出时结束 rec 子进程
-    process.on('exit', () => {
-      this.rec && this.rec.kill();
-    });
   }
 
   private onReading(data: Buffer) {
+    this.totalRecordedData = Buffer.concat([this.totalRecordedData, data])
     this.emit('recording', data);
   }
 
   private onStop() {
-    this.emit('end');
+    this.emit('end', this.totalRecordedData);
+    this.totalRecordedData = Buffer.from('');
   }
 
   private onError(error: Error) {
@@ -40,16 +40,16 @@ class Recorder extends EventEmitter {
   private stop() {
     this.status = STATUS.READY;
     this.spinner.stop();
+    if (this.keypressHandler) {
+      process.stdin.off('keypress', this.keypressHandler)
+    }
     this.onStop();
-    this.setSpinner(STATUS.READY);
     this.rec && this.rec.kill();
 
   }
 
-
-
-
   private start() {
+
     // 使用 spawn 方法创建 rec 子进程
     this.rec = spawn('rec', [
       '-t', 'raw',
@@ -71,13 +71,21 @@ class Recorder extends EventEmitter {
       case STATUS.READY:
         this.spinner.text = `按下${chalk.blueBright('空格键')}开始说话哦~~`;
         this.spinner.spinner = {
-          interval: 1000, frames: ['']
+          interval: 1000, frames: [`${chalk.yellowBright('🎙')}`]
         };
         this.spinner.start();
         break;
       case STATUS.RECORDING:
         this.spinner.text = '说话中...';
-        this.spinner.spinner = 'arc';
+        this.spinner.spinner = {
+          "interval": 160,
+          "frames": [
+            "🔈",
+            "🔉",
+            "🔊",
+            "🔉"
+          ]
+        };
         this.spinner.start();
         break;
     }
@@ -86,7 +94,7 @@ class Recorder extends EventEmitter {
 
   private ready() {
     this.setSpinner(STATUS.READY);
-    process.stdin.on('keypress', (str, key) => {
+    this.keypressHandler = (str: string, key) => {
       if (key.ctrl && key.name === 'c') {
         process.exit();
       }
@@ -101,7 +109,8 @@ class Recorder extends EventEmitter {
         }
 
       }
-    });
+    };
+    process.stdin.on('keypress', this.keypressHandler);
   }
 }
 
