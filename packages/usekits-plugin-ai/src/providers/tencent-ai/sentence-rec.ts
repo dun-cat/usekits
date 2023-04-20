@@ -1,19 +1,22 @@
 import dayjs from "dayjs";
 import * as tencentcloud from "tencentcloud-sdk-nodejs"
-
+import { Text } from '..';
 const ASRClient = tencentcloud.asr.v20190614.Client;
 
 
-function sentence() {
+async function sentence(): Promise<Text> {
   const client = new ASRClient({
     credential: {
       secretId: '',
       secretKey: '',
     }
   });
-  client.SentenceRecognition({
+  const res = await client.SentenceRecognition({
     EngSerViceType: "16k_zh",
-    SourceType: 1, // 语音数据来源。0：语音 URL；1：语音数据（post body）。
+    SourceType: 1,
     VoiceFormat: "pcm"
-  }).then();
+  });
+  return { content: res.Result }
 }
+
+export default { sentence }

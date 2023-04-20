@@ -1,7 +1,6 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
-import { record } from '@src/utils/recorder';
 import dayjs from 'dayjs';
 
 
@@ -98,9 +97,9 @@ function connect() {
         if (pcmData === null) return;
         ws.send(pcmData);
       }, 40);
-      record((data) => {
-        pcmData = data;
-      })
+      // record((data) => {
+      //   pcmData = data;
+      // })
       // resolve('connected');
       // ws.send(Date.now());
     });
