@@ -59,6 +59,7 @@
     "ora": "^3.4.0",
     "reflect-metadata": "^0.1.13",
     "socks-proxy-agent": "^7.0.0",
+    "speaker": "^0.5.4",
     "supports-hyperlinks": "^3.0.0",
     "tencentcloud-sdk-nodejs": "^4.0.582",
     "uuid": "^9.0.0",

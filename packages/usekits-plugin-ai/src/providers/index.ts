@@ -9,7 +9,7 @@ export type Text = {
 export interface Provider {
   chat?: (text: string) => Promise<Text>;
   startASR?(type: ASR_TYPE): Promise<Text>;
-
+  playText?(text: string): Promise<void>;
 }
 
 export enum AIPlatorm {

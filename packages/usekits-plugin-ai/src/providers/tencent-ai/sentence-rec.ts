@@ -2,12 +2,10 @@ import dayjs from "dayjs";
 import * as tencentcloud from "tencentcloud-sdk-nodejs"
 import { Text } from '..';
 import Recorder from "@src/utils/recorder";
+import config from "./config";
 const ASRClient = tencentcloud.asr.v20190614.Client;
 const client = new ASRClient({
-  credential: {
-    secretId: 'AKIDmQ7YjfLjutoVyA7rOgjV2LPfgZHpJerq',
-    secretKey: 'ub7SZTO72lDRWYO0LWZQ2SdZFVhsrb9U',
-  }
+  credential: config.credential
 });
 
 async function sentence(): Promise<Text> {

@@ -4,7 +4,7 @@ import ora from 'ora';
 import readline from 'readline';
 import chalk from 'chalk';
 readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
+
 
 
 enum STATUS {
@@ -38,6 +38,7 @@ class Recorder extends EventEmitter {
   }
 
   private stop() {
+    process.stdin.setRawMode(false);
     this.status = STATUS.READY;
     this.spinner.stop();
     if (this.keypressHandler) {
@@ -61,7 +62,7 @@ class Recorder extends EventEmitter {
       '-']);
     // 监听 rec 子进程的标准输出流，并在数据可用时进行处理
     this.rec.stdout.on('data', (data) => this.onReading(data));
-    this.rec.stdout.on('error', (error) => this.onError(error));
+    this.rec.stderr.on('error', (error) => this.onError(error));
     this.status = STATUS.RECORDING;
     this.setSpinner(STATUS.RECORDING);
   }
@@ -93,6 +94,7 @@ class Recorder extends EventEmitter {
   }
 
   private ready() {
+    process.stdin.setRawMode(true);
     this.setSpinner(STATUS.READY);
     this.keypressHandler = (str: string, key) => {
       if (key.ctrl && key.name === 'c') {

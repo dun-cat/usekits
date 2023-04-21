@@ -6,7 +6,8 @@ import ui from "./ui";
 import { accessKeyValidator } from "@src/validators/tencent";
 import config from "@src/config";
 import { ASR_TYPE } from "@src/utils/enum";
-import Recorder from "@src/utils/recorder";
+import { tts } from "./tts";
+import { log } from "@usekits/cli";
 
 class TencentAI implements Provider {
 
@@ -28,6 +29,11 @@ class TencentAI implements Provider {
     //   console.log(error)
     // }
 
+
+  }
+
+  playText(text: string): Promise<void> {
+    return tts(text);
 
   }
 

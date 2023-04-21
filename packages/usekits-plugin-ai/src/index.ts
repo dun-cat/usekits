@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { UseKitsCLI } from "@usekits/cli";
+import { UseKitsCLI, log } from "@usekits/cli";
 import chalk from 'chalk';
 import { AIPlatorm, createAIProvider } from "./providers";
 import { marked } from 'marked';
@@ -29,8 +29,11 @@ async function handle() {
       const aiText = await openAI.chat(myText.content);
       spinner.stop();
       console.log(`\n${chalk.redBright('AI')}: ${marked(aiText.content)}`);
+      await tencentAI.playText(aiText.content);
     } catch (error) {
       loop = false;
+      log.error(error);
+      process.exit();
     }
   }
 
