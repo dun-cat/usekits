@@ -18,12 +18,25 @@ const axiosConfig = {
 }
 
 class OpenAI implements Provider {
+
+  async listModels() {
+    const response = await openai.listModels(axiosConfig);
+    console.log(response)
+  }
+
+
   async chat(text: string): Promise<Text> {
     try {
       const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo-0301",
         messages: [{ role: "user", content: text }],
       }, axiosConfig);
+
+      // const completion = await openai.createCompletion({
+      //   model: "gpt-3.5-turbo-0301",
+      //   "prompt": "Say this is a test",
+      // }, axiosConfig);
+
       if (completion?.data?.choices?.length > 0) {
         return {
           content: completion.data.choices[0].message.content

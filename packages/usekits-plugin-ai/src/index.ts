@@ -18,6 +18,8 @@ async function handle() {
   //   input: process.stdin,
   //   output: process.stdout
   // });
+  await openAI.chat('');
+  return
   let loop = true
   while (loop) {
     try {
