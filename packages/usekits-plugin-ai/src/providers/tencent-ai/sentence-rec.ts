@@ -26,6 +26,7 @@ async function sentence(): Promise<Text> {
         reject(error)
       }
     });
+
   });
 
 }

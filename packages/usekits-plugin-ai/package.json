@@ -8,7 +8,7 @@
   "author": "lumin <527724143@qq.com>",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf dist .rollup.cache",
     "build": "npm run clean && rollup --bundleConfigAsCjs --config rollup.config.ts --configPlugin typescript",
     "dev": "NODE_ENV=development rollup --bundleConfigAsCjs --config rollup.config.ts --configPlugin typescript -w"
   },

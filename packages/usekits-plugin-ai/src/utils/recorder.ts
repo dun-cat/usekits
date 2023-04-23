@@ -6,7 +6,6 @@ import chalk from 'chalk';
 readline.emitKeypressEvents(process.stdin);
 
 
-
 enum STATUS {
   RECORDING, READY
 }
@@ -50,7 +49,6 @@ class Recorder extends EventEmitter {
   }
 
   private start() {
-
     // 使用 spawn 方法创建 rec 子进程
     this.rec = spawn('rec', [
       '-t', 'raw',

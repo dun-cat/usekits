@@ -8,15 +8,11 @@ import { marked } from 'marked';
 import ui from '@src/ui';
 import Renderer from "./utils/marked-terminal";
 import { ASR_TYPE } from "./utils/enum";
-
-
 import ora from "ora";
 marked.setOptions({
   // Define custom renderer
   renderer: new Renderer()
 });
-
-
 
 async function handle() {
 
@@ -53,6 +49,11 @@ async function handle() {
       });
       break;
     case 'audio':
+      const rll = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+
       let loop = true
       while (loop) {
         try {
