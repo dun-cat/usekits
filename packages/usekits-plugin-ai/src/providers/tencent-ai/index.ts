@@ -1,7 +1,7 @@
 import { Provider, Text } from "..";
 import realTimeASR from "./real-time-rec";
 import sentenceASR from './sentence-rec';
-import { prompt } from 'inquirer';
+// import { prompt } from 'inquirer';
 import ui from "./ui";
 import { accessKeyValidator } from "@src/validators/tencent";
 import config from "@src/config";

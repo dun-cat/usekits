@@ -25,6 +25,7 @@
     "@rollup/plugin-multi-entry": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
+    "@types/inquirer": "^9.0.3",
     "@types/marked": "^4.0.8",
     "@types/node": "^18.15.11",
     "@types/reflect-metadata": "^0.1.0",

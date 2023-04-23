@@ -17,6 +17,7 @@ const axiosConfig = {
   httpAgent: agent
 }
 
+
 class OpenAI implements Provider {
 
   async listModels() {
@@ -28,7 +29,7 @@ class OpenAI implements Provider {
   async chat(text: string): Promise<Text> {
     try {
       const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo-0301",
+        model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: text }],
       }, axiosConfig);
 
