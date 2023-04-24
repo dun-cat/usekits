@@ -2,8 +2,6 @@ import { Provider, Text } from "..";
 import realTimeASR from "./real-time-rec";
 import sentenceASR from './sentence-rec';
 // import { prompt } from 'inquirer';
-import ui from "./ui";
-import { accessKeyValidator } from "@src/validators/tencent";
 import config from "@src/config";
 import { ASR_TYPE } from "@src/utils/enum";
 import { tts } from "./tts";

@@ -73,8 +73,6 @@ async function handle() {
       break;
   }
 
-
-
 }
 
 const aiPlugin: UseKitsCLI.Plugin = (program: Command) => {
