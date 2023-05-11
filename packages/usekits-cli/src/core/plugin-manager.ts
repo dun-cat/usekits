@@ -112,7 +112,7 @@ class PluginManager {
   }
 
   public getPlugins() {
-    return this.plugins;
+    return this.plugins || [];
   }
 }
 

@@ -19,18 +19,29 @@ async function programHandler() {
   try {
     const step = await prompt(ui.menus);
     switch (step.do) {
+      // 插件列表
       case 'list':
         const plugins = PluginManager.getInstance().getPlugins();
         createTable(plugins);
         break;
+      // 移除插件
       case 'remove':
+        if (PluginManager.getInstance().getPlugins().length === 0) {
+          log.info('未找到已安装插件哦~')
+          break;
+        }
         const removeResult = await prompt(ui.remove);
         if (!removeResult.selectedPlugin) return;
         const sp = ora("插件删除中...").start();
         await PluginManager.getInstance().remove(removeResult.selectedPlugin);
         sp.succeed("删除成功！")
         break;
+      // 启用和禁用
       case 'disableOrEnable':
+        if (PluginManager.getInstance().getPlugins().length === 0) {
+          log.info('未找到已安装插件哦~')
+          break;
+        }
         const disableResult = await prompt(ui.disableOrEnable);
         if (!disableResult.selectedPlugin) return;
 
@@ -46,9 +57,11 @@ async function programHandler() {
             break;
         }
         break;
+      // 添加自定义插件
       case 'addCustomPlugins':
         if (!step.input) return;
         installer.add(step.input);
+      // 添加官方插件
       case 'addOfficialPlugins':
         if (!step.selectedPlugin) return;
         execTasks([
