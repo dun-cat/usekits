@@ -7,8 +7,6 @@ import MyConfig from './config/config';
 import PluginManager from './plugin-manager';
 
 const bootstrap = () => {
-  // init()
-
 
   // 全局命令
   program.version(PACKAGE_VERSION, '-v, --version', '当前版本号');
@@ -19,8 +17,8 @@ const bootstrap = () => {
   // 插件初始化
   PluginManager.getInstance().load();
 
-  const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
-  aiPlugin(program)
+  // const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
+  // aiPlugin(program)
 
   // // create project
   // program
