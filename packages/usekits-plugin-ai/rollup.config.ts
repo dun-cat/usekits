@@ -8,8 +8,11 @@ import shebang from 'rollup-plugin-add-shebang';
 import path from 'path';
 import pkgInfo from './package.json';
 import { getTsFiles } from './scripts/getTsFile';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+
 
 const output: OutputOptions = {
+  exports: 'named',
   preserveModules: true,
   preserveModulesRoot: "./",
   dir: "dist",
@@ -17,6 +20,7 @@ const output: OutputOptions = {
 };
 
 const plugins = [
+  nodeResolve(),
   // copy({
   //   targets: [
   //     { src: 'global.d.ts', dest: 'dist' }
@@ -45,7 +49,7 @@ const extraTsFiles = getTsFiles(path.join(__dirname, "./src/providers"));
 const config: RollupOptions = {
   input: ['./src/index.ts', ...extraTsFiles],
   output,
-  external: ['tslib'],
+  external: Object.keys(pkgInfo.dependencies),
   watch: {
     include: ['src/**'],
   },

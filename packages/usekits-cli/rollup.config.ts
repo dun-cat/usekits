@@ -6,16 +6,19 @@ import define from 'rollup-plugin-define';
 import copy from 'rollup-plugin-copy';
 import shebang from 'rollup-plugin-add-shebang';
 import { getTsFiles } from './scripts/getTsFile';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import path from 'path';
 import pkgInfo from './package.json';
 
 const output: OutputOptions = {
+  exports: 'named',
   preserveModules: true,
   dir: "dist",
   format: "commonjs",
 };
 
 const plugins = [
+  nodeResolve(),
   shebang({
     include: 'dist/bin/command.js'
   }),
@@ -46,7 +49,7 @@ const extraTsFiles = getTsFiles(path.join(__dirname, "./src/plugins"));
 const config: RollupOptions = {
   input: ['./bin/command.ts', "./index.ts", ...extraTsFiles],
   output,
-  external: ['tslib'],
+  external: Object.keys(pkgInfo.dependencies),
   watch: {
     include: ['src/**', 'bin/**'],
   },

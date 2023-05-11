@@ -5,6 +5,7 @@ import typescript from '@rollup/plugin-typescript';
 import define from 'rollup-plugin-define';
 import copy from 'rollup-plugin-copy';
 import shebang from 'rollup-plugin-add-shebang';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import path from 'path';
 import pkgInfo from './package.json';
 
@@ -16,6 +17,7 @@ const output: OutputOptions = {
 };
 
 const plugins = [
+  nodeResolve(),
   // copy({
   //   targets: [
   //     { src: 'global.d.ts', dest: 'dist' }
@@ -43,6 +45,7 @@ if (process.env.NODE_ENV === 'development') {
 const config: RollupOptions = {
   input: ['./src/index.ts'],
   output,
+  external: Object.keys(pkgInfo.dependencies),
   watch: {
     include: ['src/**'],
   },

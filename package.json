@@ -6,6 +6,7 @@
   "author": "lumin <527724143@qq.com>",
   "license": "MIT",
   "scripts": {
+    "reInstall": "",
     "clean": "pnpm --filter './packages/*' clean",
     "dev": "pnpm --parallel --filter './packages/*' run dev",
     "use": "pnpm --filter=cli use",
