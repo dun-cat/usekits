@@ -12,7 +12,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 
 const output: OutputOptions = {
-  exports: 'named',
+  // exports: 'named',
   preserveModules: true,
   preserveModulesRoot: "./",
   dir: "dist",

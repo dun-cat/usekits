@@ -11,7 +11,7 @@ import path from 'path';
 import pkgInfo from './package.json';
 
 const output: OutputOptions = {
-  exports: 'named',
+  // exports: 'named',
   preserveModules: true,
   dir: "dist",
   format: "commonjs",

@@ -1,6 +1,5 @@
 import loadModules from "@src/utils/module-dir-loader";
 import { program } from "commander";
-import { UseKitsCLI } from "index";
 import * as fs from 'fs-extra';
 import path from "path";
 import { BASE_DIR_NAME, getPluginsDir } from "./config";
@@ -48,6 +47,7 @@ class PluginManager {
 
   public load() {
     const buildInPlugins = loadModules(path.join(__dirname, '../plugins'));
+    console.log(buildInPlugins)
     // 加载内置插件
     for (const plugin of Object.values(buildInPlugins)) {
       plugin(program);
