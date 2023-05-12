@@ -47,10 +47,9 @@ class PluginManager {
 
   public load() {
     const buildInPlugins = loadModules(path.join(__dirname, '../plugins'));
-    console.log(buildInPlugins)
     // 加载内置插件
     for (const plugin of Object.values(buildInPlugins)) {
-      plugin(program);
+      plugin.default(program);
     }
 
     // 读取 plugins.json 文件，获取已安装的外部插件列表
@@ -58,7 +57,13 @@ class PluginManager {
       this.plugins = fs.readJSONSync(this.pluginsFilePath);
       this.plugins.forEach(plugin => {
         if (plugin.status === PLUGIN_STATUS.ENABLED) {
-          require(plugin.path)(program);
+          const extraPlugin = require(plugin.path);
+          if (typeof extraPlugin === 'function') {
+            extraPlugin(program);
+          } else {
+            extraPlugin.default(program);
+          }
+
         }
       })
     } catch (error) {

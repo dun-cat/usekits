@@ -30,5 +30,6 @@ export function createAIProvider(aiPlatorm: AIPlatorm) {
   }
   // 加载 AI 模块
   const AI = require(path.join(__dirname, modulePath));
-  return new AI() as Provider;
+
+  return new AI.default() as Provider;
 }
