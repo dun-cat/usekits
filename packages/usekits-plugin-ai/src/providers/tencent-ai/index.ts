@@ -7,6 +7,12 @@ import { ASR_TYPE } from "@src/utils/enum";
 import { tts } from "./tts";
 import { log } from "@usekits/cli";
 
+export type TencentConfig = {
+  appId: string;
+  secretId: string;
+  secretKey: string;
+}
+
 class TencentAI implements Provider {
 
   async startASR(type: ASR_TYPE = ASR_TYPE.SINGLE_SHOT): Promise<Text> {

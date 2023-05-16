@@ -1,42 +1,45 @@
 import { log } from "@usekits/cli";
 import { Configuration, OpenAIApi } from "openai";
+import config from "@src/config";
 import { SocksProxyAgent } from 'socks-proxy-agent';
 
 
 import { Provider, Text } from "..";
 const proxy = process.env.socks_proxy || 'socks://127.0.0.1:1081';
 
-const configuration = new Configuration({
-  apiKey: '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',
-});
-const openai = new OpenAIApi(configuration);
 
-var agent = new SocksProxyAgent(proxy);
-const axiosConfig = {
-  httpsAgent: agent,
-  httpAgent: agent
-}
 
 
 class OpenAI implements Provider {
 
+  private openai: OpenAIApi;
+  private axiosConfig: any;
+
+  constructor() {
+    const configuration = new Configuration({
+      apiKey: config.openAI.apiKey,
+    });
+    this.openai = new OpenAIApi(configuration);
+
+    const agent = new SocksProxyAgent(proxy);
+    this.axiosConfig = {
+      httpsAgent: agent,
+      httpAgent: agent
+    }
+  }
+
   async listModels() {
-    const response = await openai.listModels(axiosConfig);
+    const response = await this.openai.listModels(this.axiosConfig);
     console.log(response)
   }
 
 
   async chat(text: string): Promise<Text> {
     try {
-      const completion = await openai.createChatCompletion({
+      const completion = await this.openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: text }],
-      }, axiosConfig);
-
-      // const completion = await openai.createCompletion({
-      //   model: "gpt-3.5-turbo-0301",
-      //   "prompt": "Say this is a test",
-      // }, axiosConfig);
+      }, this.axiosConfig);
 
       if (completion?.data?.choices?.length > 0) {
         return {

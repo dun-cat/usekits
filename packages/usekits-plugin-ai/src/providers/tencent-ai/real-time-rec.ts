@@ -2,10 +2,10 @@ import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
-
+import config from "@src/config";
 
 function getConnectUrl() {
-  const secretid = 'AKID6DDFOTK7rcCe3HI5c5LML7dv0qSYXMwb';
+  const secretid = config.tencent.accessKey.secretId;
   const timestamp = Math.floor(Date.now() / 1000);
   const expired = timestamp + 60 * 60 * 24 * 10;
   const nonce = Math.floor(Math.random() * 10000)
@@ -22,7 +22,7 @@ function getConnectUrl() {
   const convert_num_mode = 1;
   const word_info = 2;
 
-  const resultUrl = new URL('wss://asr.cloud.tencent.com/asr/v2/1300883601');
+  const resultUrl = new URL(`wss://asr.cloud.tencent.com/asr/v2/${config.tencent.accessKey.appId}`);
 
   const params = {
     secretid,
@@ -43,7 +43,7 @@ function getConnectUrl() {
   Object.keys(params).sort((a, b) => a.localeCompare(b)).
     forEach(key => resultUrl.searchParams.append(key, params[key]));
 
-  const hmac = crypto.createHmac('sha1', "cAUaQGtNfiU0KYXJrBTVJsGQK0Xoqb8m");
+  const hmac = crypto.createHmac('sha1', config.tencent.accessKey.secretKey);
   const text = resultUrl.hostname + resultUrl.pathname + resultUrl.search;
   hmac.update(text);
   const signature = hmac.digest().toString('base64');
@@ -128,7 +128,6 @@ function connect() {
             console.log(text.join('\n'))
           } else {
             console.clear();
-            console.log('OnRecognitionResultChange', response?.result)
           }
         } else {
           console.log(response)

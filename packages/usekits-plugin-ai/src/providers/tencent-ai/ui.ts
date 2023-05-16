@@ -1,36 +1,42 @@
 import config from "@src/config";
-import { authValidator } from "@src/validators/tencent"
 import { QuestionCollection } from "inquirer";
-
+import Joi from 'joi';
 
 const accessKey: QuestionCollection = [{
   type: 'input',
-  message: '请输入 AppId:',
+  message: '请输入腾讯云 AppId:',
   name: 'appId',
   default: () => config.tencent.accessKey.appId,
   validate(input, answers) {
-    const result = authValidator.validate(answers);
-    console.log('result', result)
+    const result = Joi.required().validate(input);
+    if (result.error) {
+      return false
+    }
+    return true
   },
-  when(answers) {
-    const result = authValidator.validate(answers);
-  }
 }, {
   type: 'input',
-  message: '请输入 SecretId:',
+  message: '请输入腾讯云 SecretId:',
   name: 'secretId',
   default: () => config.tencent.accessKey.secretId,
-  when(answers) {
-    const result = authValidator.validate(answers);
+  validate(input, answers) {
+    const result = Joi.required().validate(input);
+    if (result.error) {
+      return false
+    }
+    return true
   }
 }, {
   type: 'input',
-  message: '请输入 SecretKey:',
+  message: '请输入腾讯云 SecretKey:',
   name: 'secretKey',
   default: () => config.tencent.accessKey.secretKey,
-  when(answers) {
-    const result = authValidator.validate(answers);
-    console.log(result)
+  validate(input, answers) {
+    const result = Joi.required().validate(input);
+    if (result.error) {
+      return false
+    }
+    return true
   }
 }
 ]

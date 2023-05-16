@@ -13,12 +13,13 @@ const bootstrap = () => {
   // 初始接受参数
   program.option('-d, --debug', '输出额外的调试信息');
   program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
+  program.option('-h, --help', '使用帮助')
 
   // 插件初始化
   PluginManager.getInstance().load();
 
-  // const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
-  // aiPlugin(program)
+  const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
+  aiPlugin.default(program)
 
   // // create project
   // program

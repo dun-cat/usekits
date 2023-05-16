@@ -9,15 +9,24 @@ import ui from '@src/ui';
 import Renderer from "./utils/marked-terminal";
 import { ASR_TYPE } from "./utils/enum";
 import ora from "ora";
+import config from "@src/config";
+import openAIUI from "./providers/open-ai/ui";
+import tencentAIUI from "./providers/tencent-ai/ui";
+import { authValidator } from "./validators/tencent";
+import { TencentConfig } from "./providers/tencent-ai";
+
 marked.setOptions({
   // Define custom renderer
   renderer: new Renderer()
 });
 
 async function handle() {
-
-  const tencentAI = createAIProvider(AIPlatorm.TENCENT_AI);
   const openAI = createAIProvider(AIPlatorm.OPEN_AI);
+
+  if (!config.openAI.apiKey) {
+    const answer = await inquirer.prompt(openAIUI.accessKey);
+    config.openAI.apiKey = answer.apiKey;
+  }
 
   async function openAiChat(text: string) {
     const spinner = ora();
@@ -28,9 +37,10 @@ async function handle() {
     console.log(`\n${chalk.redBright('AI')}: ${marked(aiText.content)}`);
     return aiText;
   }
-
+  // 选择输入方式
   const inputTypeResult = await inquirer.prompt(ui.inputType);
   switch (inputTypeResult.inputType) {
+    // 键盘
     case 'keyboard':
       const rl = readline.createInterface({
         input: process.stdin,
@@ -48,7 +58,15 @@ async function handle() {
         process.exit(0);
       });
       break;
+    // 语音识别
     case 'audio':
+      const v = authValidator.validate(config.tencent.accessKey);
+      if (v.error) {
+        const result = await inquirer.prompt(tencentAIUI.accessKey) as TencentConfig;
+        console.log(result)
+        config.tencent.accessKey = result;
+      }
+      const tencentAI = createAIProvider(AIPlatorm.TENCENT_AI);
       const rll = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -78,7 +96,7 @@ async function handle() {
 const aiPlugin: UseKitsCLI.Plugin = (program: Command) => {
 
   const subProgram = program
-    .command('aii')
+    .command('ai')
     .description('AI 机器人')
     .action(handle);
 }

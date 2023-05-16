@@ -1,10 +1,10 @@
 import Joi from 'joi';
 
 const authValidator = Joi.object({
-  appId: Joi.required(),
-  secretId: Joi.required(),
-  secretKey: Joi.required()
-}).options({ allowUnknown: true });;
+  appId: Joi.string().empty('').required(),
+  secretId: Joi.string().empty('').required(),
+  secretKey: Joi.string().empty('').required()
+});
 
 export {
   authValidator

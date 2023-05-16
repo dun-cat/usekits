@@ -9,6 +9,9 @@ class Config {
       secretKey: "",
     }
   }
+  openAI = {
+    apiKey: ""
+  }
 }
 
 const config = new Config();
