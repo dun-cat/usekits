@@ -1,23 +1,69 @@
+import { getPluginConfigFile, saveConfig } from "@src/core/config";
 import PluginManager from "@src/core/plugin-manager"
 import log from "@src/utils/log"
 
+function writeValue(obj: object, path: string, value: string): void {
+  const pathList = path.split('.');
+
+  for (let i = 0; i < pathList.length; i++) {
+    const property = pathList[i];
+
+    if (typeof obj !== 'object' || obj === null) {
+      throw new Error('Invalid object');
+    }
+
+    if (property in obj && i < pathList.length - 1) {
+      obj = obj[property];
+    } else if (!(property in obj) && i < pathList.length - 1) {
+      obj[property] = {};
+      obj = obj[property];
+    } else if (i === pathList.length - 1) {
+      obj[property] = value;
+    }
+  }
+}
+
+function getValueByPath(obj: object, path: string): any {
+  const keys = path.split('.');
+  let value = obj;
+
+  for (const key of keys) {
+    if (!value.hasOwnProperty(key)) {
+      return undefined;
+    }
+
+    value = value[key];
+  }
+
+  return value;
+}
+
+function getConfig(pluginName: string) {
+  const configFile = getPluginConfigFile(pluginName);
+  return require(configFile);
+}
+
 async function list(pluginName: string) {
-  console.log(this.args, this.opts())
+  console.log(getConfig(pluginName))
 }
 async function set(pluginName: string, key: string, value: string) {
-  console.log(this.args, this.opts())
+  const configFile = getPluginConfigFile(pluginName);
+  const config = require(configFile);
+  writeValue(config, key, value);
+  log.success('已修改')
+  console.log(config)
+  saveConfig(config, configFile);
 }
 async function get(pluginName: string, key: string) {
-  console.log(this.args, this.opts())
+  const configFile = getPluginConfigFile(pluginName);
+  const config = require(configFile);
+  const value = getValueByPath(config, key);
+  console.log(value)
 }
 
-async function clear(pluginName: string) {
-  console.log(this.args, this.opts())
-}
 
-function handle(actionType: 'list' | 'set' | 'get' | 'clear') {
+function handle(actionType: 'list' | 'set' | 'get') {
   return function () {
-    console.log(this.args, this.opts())
     if (!Array.isArray(this.args)) {
       log.error('无效参数');
       return;
@@ -35,13 +81,13 @@ function handle(actionType: 'list' | 'set' | 'get' | 'clear') {
 
     switch (actionType) {
       case 'list':
-        list();
+        list(pluginName);
         break;
       case 'set':
+        set(pluginName, this.args[1], this.args[2])
         break;
       case 'get':
-        break;
-      case 'clear':
+        get(pluginName, this.args[1]);
         break;
     }
 

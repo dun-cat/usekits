@@ -25,10 +25,6 @@ const configPlugin: UseKitsCLI.Plugin = (program: Command) => {
     .command('get <plugin> <key>')
     .description('获取指定 key 的配置项')
     .action(action.handle('get'));
-  subProgram
-    .command('clear <plugin>')
-    .description('清除所有配置项')
-    .action(action.handle('clear'));
 }
 
 export default configPlugin;

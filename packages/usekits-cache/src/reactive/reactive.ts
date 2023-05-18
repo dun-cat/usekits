@@ -56,6 +56,7 @@ function saveToFile(filePath: string, data: object) {
 }
 
 function loadFromFile(filePath: string): object {
+
   try {
     // 检查目录是否存在，如果不存在则创建目录
     const dir = path.dirname(filePath);
@@ -69,6 +70,7 @@ function loadFromFile(filePath: string): object {
       return {};
     }
     const content = fs.readFileSync(filePath, { flag: 'a+' }).toString();
+
     return JSON.parse(content);
   } catch (e) {
     return {};
@@ -95,9 +97,6 @@ function createReactiveDecorator(options?: ReactiveOptions) {
         function flush(changedValue?: any) {
           saveToFile(path, mergedData)
         }
-        process.on('exit', (code) => {
-          flush();
-        });
 
         this.$data = createReactive(mergedData, flush);
 

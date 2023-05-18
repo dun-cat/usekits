@@ -1,3 +1,4 @@
+import log from '@src/utils/log';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
@@ -18,6 +19,10 @@ const getPluginsDir = () => {
   }
 
   return pluginDir;
+}
+
+const getPluginConfigFile = (pluginName: string) => {
+  return path.join(BASE_DIR_NAME, 'data', pluginName, 'confg', `default.json`)
 }
 
 interface Config {
@@ -41,14 +46,19 @@ function getConfig(): Config {
   return config;
 }
 
-function saveConfig(config: Config): void {
-  const configDir = path.dirname(configFile);
+function saveConfig(config: Config, file = configFile): void {
+  try {
+    const configDir = path.dirname(file);
 
-  if (!fs.existsSync(configDir)) {
-    fs.mkdirSync(configDir);
+    if (!fs.existsSync(configDir)) {
+      fs.mkdirSync(configDir);
+    }
+
+    fs.writeFileSync(file, JSON.stringify(config, null, 2), 'utf-8');
+  } catch (error) {
+    log.error(error);
   }
 
-  fs.writeFileSync(configFile, JSON.stringify(config, null, 2), 'utf-8');
 }
 
 function getPlugins() {
@@ -63,4 +73,4 @@ function getPlugins() {
   return config;
 }
 
-export { getConfig, saveConfig, getPlugins, getPluginsDir }
+export { getConfig, saveConfig, getPlugins, getPluginsDir, getPluginConfigFile }

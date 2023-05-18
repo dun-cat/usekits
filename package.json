@@ -12,7 +12,7 @@
     "use": "pnpm --filter=cli use",
     "build": "pnpm --filter './packages/*' build",
     "publish": "pnpm --filter './packages/*' publish --access=public --no-git-checks",
-    "prepublish": "pnpm --filter=cli av && npm run build"
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "dayjs": "^1.11.7"

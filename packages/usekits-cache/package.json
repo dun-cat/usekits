@@ -1,6 +1,6 @@
 {
   "name": "@usekits/usekits-cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/dun-cat/usekits/tree/main/packages/usekits-cache#readme",
   "description": "为 usekits 插件提供隔离的缓存机制。",
   "main": "./dist/src/index.js",

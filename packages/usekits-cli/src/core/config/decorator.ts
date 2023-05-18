@@ -16,6 +16,5 @@ function PluginConfig() {
   })
 }
 
-
 export { PluginConfig }
 
