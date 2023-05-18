@@ -16,5 +16,19 @@ const accessKey: QuestionCollection = [{
   }
 }]
 
+const proxy: QuestionCollection = [{
+  type: 'input',
+  message: '请输入 Socks 代理地址:',
+  name: 'socksProxy',
+  default: () => config.openAI.socksProxy,
+  validate(input) {
+    const result = Joi.required().validate(input);
+    if (result.error) {
+      return false
+    }
+    return true
+  }
+}]
 
-export default { accessKey }
+
+export default { accessKey, proxy }

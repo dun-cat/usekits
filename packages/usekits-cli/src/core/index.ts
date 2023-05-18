@@ -1,9 +1,6 @@
-import { init } from '@src/lib/config';
-import runner from '@src/lib/runner';
 import { PACKAGE_VERSION } from '@src/utils/constant';
 import { program } from 'commander';
 import path from 'path';
-import MyConfig from './config/config';
 import PluginManager from './plugin-manager';
 
 const bootstrap = () => {
@@ -15,8 +12,11 @@ const bootstrap = () => {
   program.option('-y, --yes', '无弹框提示，所有操作默认通过，适合自动化环境');
   program.option('-h, --help', '使用帮助')
 
+
+
   // 插件初始化
   PluginManager.getInstance().load();
+
 
   const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
   aiPlugin.default(program)

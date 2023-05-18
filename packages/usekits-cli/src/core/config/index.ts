@@ -4,8 +4,9 @@ import * as path from 'path';
 
 export const BASE_DIR_NAME = path.join(os.homedir(), '.usekits');
 
+// cli 配置文件
 const configFile = path.join(BASE_DIR_NAME, 'config.json');
-
+// 插件配置文件
 const pluginConfigFile = path.join(BASE_DIR_NAME, 'plugins.json');
 
 const getPluginsDir = () => {

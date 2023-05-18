@@ -5,11 +5,7 @@ import { SocksProxyAgent } from 'socks-proxy-agent';
 
 
 import { Provider, Text } from "..";
-const proxy = process.env.socks_proxy || 'socks://127.0.0.1:1081';
-
-
-
-
+const proxy = config.openAI.socksProxy;
 class OpenAI implements Provider {
 
   private openai: OpenAIApi;
@@ -20,11 +16,14 @@ class OpenAI implements Provider {
       apiKey: config.openAI.apiKey,
     });
     this.openai = new OpenAIApi(configuration);
-
-    const agent = new SocksProxyAgent(proxy);
-    this.axiosConfig = {
-      httpsAgent: agent,
-      httpAgent: agent
+    if (proxy) {
+      const agent = new SocksProxyAgent(proxy);
+      this.axiosConfig = {
+        httpsAgent: agent,
+        httpAgent: agent
+      }
+    } else {
+      this.axiosConfig = {}
     }
   }
 

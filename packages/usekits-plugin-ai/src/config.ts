@@ -10,7 +10,8 @@ class Config {
     }
   }
   openAI = {
-    apiKey: ""
+    apiKey: "",
+    socksProxy: "",
   }
 }
 

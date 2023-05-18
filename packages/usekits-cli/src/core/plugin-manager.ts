@@ -116,6 +116,15 @@ class PluginManager {
     }
   }
 
+  public getPlugin(pluginName: string) {
+    const pluginIndex = this.plugins.findIndex(plugin => plugin.name === pluginName);
+    if (pluginIndex !== -1) {
+      return this.plugins[pluginIndex];
+    } else {
+      return null
+    }
+  }
+
   public getPlugins() {
     return this.plugins || [];
   }
