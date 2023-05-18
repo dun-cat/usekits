@@ -18,8 +18,8 @@ const bootstrap = () => {
   PluginManager.getInstance().load();
 
 
-  const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
-  aiPlugin.default(program)
+  // const aiPlugin = require(path.join(__dirname, "../../../../usekits-plugin-ai/dist/src/index.js"))
+  // aiPlugin.default(program)
 
   // // create project
   // program
