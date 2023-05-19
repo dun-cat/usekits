@@ -1,8 +1,6 @@
 import { Provider, Text } from "..";
 import realTimeASR from "./real-time-rec";
 import sentenceASR from './sentence-rec';
-// import { prompt } from 'inquirer';
-import config from "@src/config";
 import { ASR_TYPE } from "@src/utils/enum";
 import { tts } from "./tts";
 import { log } from "@usekits/cli";

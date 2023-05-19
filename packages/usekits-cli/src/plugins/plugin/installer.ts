@@ -12,7 +12,7 @@ import { getPluginsDir } from '@src/core/config';
 import log from '@src/utils/log';
 // import bytes from 'bytes';
 import ora from 'ora';
-import { resolvePluginName } from './helper';
+import { registryUrl, resolvePluginName } from './helper';
 import PluginManager, { PLUGIN_STATUS } from '@src/core/plugin-manager';
 
 async function unPack(originFile: string, name: string): Promise<{ unpackDir: string; localPackage: any; }> {
@@ -96,7 +96,7 @@ async function add(pluginName: string) {
     const { unpackDir, localPackage } = await unPack(targetFile, pkg.name);
     // 安装依赖
     await (await execaPromise).execa('pnpm',
-      ['install', '--registry=https://registry.npmmirror.com/'], { cwd: unpackDir });
+      ['install', `--registry=${registryUrl}`], { cwd: unpackDir });
     spinner.succeed(`[${chalk.magenta(displayPackageName)}] Installation successful!`)
     // 注册插件，并设置为启用状态
     PluginManager.getInstance().register({

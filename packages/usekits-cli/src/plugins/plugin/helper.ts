@@ -3,7 +3,8 @@ import axios from 'axios';
 import * as semver from 'semver';
 import * as execa from 'execa';
 const execaPromise = import('execa')
-const registryUrl = 'https://registry.npmmirror.com';
+// export const registryUrl = 'https://registry.npmmirror.com';
+export const registryUrl = process.env.npm_registry || 'https://registry.npmjs.com';
 
 function splitScopedPackageVersion(packageName: string): { name: string, version: string } {
   const match = /^(@[^/]+\/)?([^@]+)(@(.+))?$/.exec(packageName);

@@ -1,13 +1,16 @@
 import * as tencentcloud from "tencentcloud-sdk-nodejs"
 
-import config from "./config";
 import { randomUUID } from "crypto";
 import { log } from "@usekits/cli";
 import { playBase64EncodedPcm } from "@src/utils/player";
+import config from "@src/config";
 
 const TTSClient = tencentcloud.tts.v20190823.Client;
 const client = new TTSClient({
-  credential: config.credential,
+  credential: {
+    secretId: config.tencent.accessKey.secretId,
+    secretKey: config.tencent.accessKey.secretKey
+  },
   region: 'ap-beijing',
 });
 
