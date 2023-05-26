@@ -45,14 +45,14 @@ async function init() {
   }
 }
 
-async function commit(answers) {
+async function commit(answers: { msg: string, type?: string }) {
   let message = answers.msg;
   if (answers.type) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
-    await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
-    const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
+    (await execaPromise).execaSync('git', ['add', '*'], { cwd: cwd.get() });
+    const { stdout } = (await execaPromise).execaSync('git', ['commit', '-m', message.replace(/"/, '\\"')], {
       cwd: cwd.get(),
     });
     log.info(stdout)
