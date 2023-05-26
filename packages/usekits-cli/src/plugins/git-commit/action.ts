@@ -40,8 +40,8 @@ async function commit(answers) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
-    const { stdout: addStdout } = await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
-    log.info(addStdout);
+    await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
+
     const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
       cwd: cwd.get(),
     });
