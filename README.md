@@ -104,3 +104,46 @@ usekits 内置了一些插件：
 ## 官方插件
 
 * `@usekits/plugin-ai`：一个命令行聊天 AI，接入 OpenAI 的 SDK；
+
+## help
+
+插件一般以子命令的方式使用。当直接使用`use --help`时，可以看到已启用的插件的子命令：
+
+``` shell
+Usage: command [options] [command]
+
+Options:
+  -v, --version                       当前版本号
+  -d, --debug                         输出额外的调试信息
+  -y, --yes                           无弹框提示，所有操作默认通过，适合自动化环境
+  -h, --help                          使用帮助
+
+Commands:
+  config|conf <plugin> <key> <value>  插件配置管理
+  commit|c [options] [message]        Git 提交代码
+  plugin|p                            插件管理
+  ai                                  AI 机器人
+  help [command]                      display help for command
+```
+
+而每个子命令，有自己的单独 help，例如我们执行`use config --help`：
+
+``` shell
+Usage: command config|conf [options] [command] <plugin> <key> <value>
+
+插件配置管理
+
+Arguments:
+  plugin                      插件包名
+  key                         配置项 Key
+  value                       配置项 Value
+
+Options:
+  -h, --help                  display help for command
+
+Commands:
+  list|ls <plugin>            列出插件所有配置项
+  set <plugin> <key> <value>  设置配置项
+  get <plugin> <key>          获取指定 key 的配置项
+  help [command]              display help for command
+```
