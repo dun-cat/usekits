@@ -1,6 +1,7 @@
 const execaPromise = import('execa')
 import cwd from '@src/utils/cwd';
 import log from '@src/utils/log';
+import { spawnSync } from 'child_process';
 import { copyFileSync, existsSync } from 'fs-extra';
 import { resolve } from 'path';
 import * as fs from 'fs';
@@ -51,13 +52,16 @@ async function commit(answers) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
-    // 如果存在 index.lock 文件删除它
-    deleteGitLockFile();
-    await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
+    // await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
+    const childProcess = spawnSync('git', ['-add', '*'], { cwd: cwd.get() })
 
-    const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
-      cwd: cwd.get(),
-    });
+    if (childProcess.error) {
+      throw childProcess.error
+    }
+    const stdout = spawnSync('git', ['commit', '-m', message.replace(/"/, '\\"')], { cwd: cwd.get() })
+    // const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
+    //   cwd: cwd.get(),
+    // });
     log.info(stdout)
   } catch (error) {
     throw error;
