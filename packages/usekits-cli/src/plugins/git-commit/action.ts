@@ -3,8 +3,19 @@ import cwd from '@src/utils/cwd';
 import log from '@src/utils/log';
 import { copyFileSync, existsSync } from 'fs-extra';
 import { resolve } from 'path';
-import { choices } from './ui';
+import * as fs from 'fs';
 let isProjectGit: boolean;
+
+const deleteGitLockFile = (): void => {
+  const gitFolderPath = '.git';
+  const lockFileName = 'index.lock';
+  const lockFilePath = `${gitFolderPath}/${lockFileName}`;
+
+  if (fs.existsSync(lockFilePath)) {
+    fs.unlinkSync(lockFilePath);
+    console.log('Git lock file deleted.');
+  }
+};
 
 async function hasProjectGit() {
   if (isProjectGit != null) {
@@ -40,6 +51,8 @@ async function commit(answers) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
+    // 如果存在 index.lock 文件删除它
+    deleteGitLockFile();
     await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
 
     const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
@@ -77,4 +90,5 @@ export default {
   push,
   init,
   syncProjectToRemoteGitRepo,
+  deleteGitLockFile
 };
