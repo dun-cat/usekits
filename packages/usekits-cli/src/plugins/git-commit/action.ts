@@ -41,8 +41,8 @@ async function commit(answers) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
-    const { stderr } = spawnSync('git', ['add', '*'], { cwd: cwd.get(), stdio: 'inherit' })
-    console.log(String(stderr));
+    const { error: addError } = spawnSync('git', ['add', '*'], { cwd: cwd.get() })
+    if (addError) { throw addError }
     const { stdout } = spawnSync('git', ['commit', '-m', message.replace(/"/, '\\"')], { cwd: cwd.get() })
     log.info(String(stdout))
   } catch (error) {
