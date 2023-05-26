@@ -41,11 +41,12 @@ async function commit(answers) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
-    const result = spawnSync('git', ['add', '*'], { cwd: cwd.get() })
-    if (result.stdout.length === 0) {
-      throw 'No files to commit.'
-    }
-    const { stdout } = spawnSync('git', ['commit', '-m', message.replace(/"/, '\\"')], { cwd: cwd.get() })
+    const result = await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() })
+    console.log(result)
+    // if (result.stdout.length === 0) {
+    //   throw 'No files to commit.'
+    // }
+    const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], { cwd: cwd.get() })
     log.info(String(stdout))
   } catch (error) {
     throw error;
