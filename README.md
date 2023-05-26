@@ -105,7 +105,7 @@ usekits 内置了一些插件：
 
 * `@usekits/plugin-ai`：一个命令行聊天 AI，接入 OpenAI 的 SDK；
 
-## help
+## Help
 
 插件一般以子命令的方式使用。当直接使用`use --help`时，可以看到已启用的插件的子命令：
 
