@@ -42,7 +42,6 @@ async function commit(answers) {
   }
   try {
     spawnSync('git', ['add', '*'], { cwd: cwd.get() })
-
     const { stdout } = spawnSync('git', ['commit', '-m', message.replace(/"/, '\\"')], { cwd: cwd.get() })
     log.info(String(stdout))
   } catch (error) {
