@@ -14,7 +14,7 @@ function warn(msg) {
   log(`${chalk.yellow('⚠')} ${msg}`);
 }
 function info(msg) {
-  log(msg);
+  log(`${chalk.blueBright('!')} ${msg}`);
 }
 function success(msg) {
   log(`${chalk.green('✔')} ${msg}`);

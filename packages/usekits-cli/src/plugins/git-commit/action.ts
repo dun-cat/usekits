@@ -42,7 +42,9 @@ async function commit(answers) {
   }
   try {
     const result = spawnSync('git', ['add', '*'], { cwd: cwd.get() })
-    console.log(result)
+    if (result.stdout.length === 0) {
+      throw 'No files to commit.'
+    }
     const { stdout } = spawnSync('git', ['commit', '-m', message.replace(/"/, '\\"')], { cwd: cwd.get() })
     log.info(String(stdout))
   } catch (error) {
