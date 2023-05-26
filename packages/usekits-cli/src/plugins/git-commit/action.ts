@@ -51,8 +51,11 @@ async function commit(answers: { msg: string, type?: string }) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
-    (await execaPromise).execaSync('git', ['add', '*'], { cwd: cwd.get() });
-    const { stdout } = (await execaPromise).execaSync('git', ['commit', '-m', message.replace(/"/, '\\"')], {
+    // 解决问题：fatal: Unable to create '/Users/lumin/lumin.git.repo/yf-blog-hugo/.git/index.lock': File exists.
+    await Promise.resolve();
+
+    await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
+    const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
       cwd: cwd.get(),
     });
     log.info(stdout)
