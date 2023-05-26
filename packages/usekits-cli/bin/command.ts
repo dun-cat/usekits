@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-
 import requireDir from 'require-dir';
 import { prompt, registerPrompt } from 'inquirer';
 import core from '@src/core';
