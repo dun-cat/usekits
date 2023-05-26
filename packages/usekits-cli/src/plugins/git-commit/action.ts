@@ -1,4 +1,5 @@
 const execaPromise = import('execa')
+
 import cwd from '@src/utils/cwd';
 import log from '@src/utils/log';
 import { copyFileSync, existsSync } from 'fs-extra';
@@ -51,10 +52,10 @@ async function commit(answers: { msg: string, type?: string }) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
-    // 解决问题：fatal: Unable to create '/Users/lumin/lumin.git.repo/yf-blog-hugo/.git/index.lock': File exists.
-    await Promise.resolve();
-
-    await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
+    await (await execaPromise).execa('git', ['status'], { cwd: cwd.get() })
+    await (await execaPromise).execa('git', ['add', '*'], {
+      cwd: cwd.get(),
+    });
     const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
       cwd: cwd.get(),
     });
