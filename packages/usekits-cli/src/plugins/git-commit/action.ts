@@ -7,17 +7,6 @@ import { resolve } from 'path';
 import * as fs from 'fs';
 let isProjectGit: boolean;
 
-const deleteGitLockFile = (): void => {
-  const gitFolderPath = '.git';
-  const lockFileName = 'index.lock';
-  const lockFilePath = `${gitFolderPath}/${lockFileName}`;
-
-  if (fs.existsSync(lockFilePath)) {
-    fs.unlinkSync(lockFilePath);
-    console.log('Git lock file deleted.');
-  }
-};
-
 async function hasProjectGit() {
   if (isProjectGit != null) {
     return isProjectGit;
@@ -52,17 +41,10 @@ async function commit(answers) {
     message = `${answers.type}: ${answers.msg || "code updated"}`;
   }
   try {
-    // await (await execaPromise).execa('git', ['add', '*'], { cwd: cwd.get() });
-    const childProcess = spawnSync('git', ['-add', '*'], { cwd: cwd.get() })
+    spawnSync('git', ['add', '*'], { cwd: cwd.get() })
 
-    if (childProcess.error) {
-      throw childProcess.error
-    }
-    const stdout = spawnSync('git', ['commit', '-m', message.replace(/"/, '\\"')], { cwd: cwd.get() })
-    // const { stdout } = await (await execaPromise).execa('git', ['commit', '-m', message.replace(/"/, '\\"')], {
-    //   cwd: cwd.get(),
-    // });
-    log.info(stdout)
+    const { stdout } = spawnSync('git', ['commit', '-m', message.replace(/"/, '\\"')], { cwd: cwd.get() })
+    log.info(String(stdout))
   } catch (error) {
     throw error;
   }
@@ -94,5 +76,4 @@ export default {
   push,
   init,
   syncProjectToRemoteGitRepo,
-  deleteGitLockFile
 };
