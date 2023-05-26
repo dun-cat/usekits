@@ -2,6 +2,12 @@
 
 适合个人开发者的命令行工具，提供插件机制来定制属于个人 CLI 命令
 
+## 安装
+
+``` shell
+npm install @usekits/cli
+```
+
 ## 使用
 
 ``` shell
@@ -90,3 +96,11 @@ usekits 内置了一些插件：
 * `config`：该插件用于直接修改插件的持久化配置；
 * `git-commit`：该插件用于规范 commit 提交消息；
 * `plugin`：该插件用于管理插件（添加、删除、展示、禁用）等。
+
+`plugin`和`config`插件用于对插件管理和插件配置的管理，而`git-commit`是作为工作空间必备功能添加的。
+
+内置插件跟随`@usekits/cli`一起安装，无需额外手动安装。
+
+## 官方插件
+
+* `@usekits/plugin-ai`：一个命令行聊天 AI，接入 OpenAI 的 SDK；
